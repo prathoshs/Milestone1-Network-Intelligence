@@ -1,1 +1,3 @@
-datetime,CellID,countrycode,smsin,smsout,callin,callout
+version https://git-lfs.github.com/spec/v1
+oid sha256:0c735ea2bf3952e19f56185e05b350ee66169bb25c5b466a54969ce4df24cedf
+size 57

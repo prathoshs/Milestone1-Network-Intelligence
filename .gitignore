@@ -1,15 +1,4 @@
-﻿# Generated Phase 2 data
-phase2/data/
-phase2/output/
-phase2/parquet_output/
-
-# Logs
-logs/
-phase1/logs/
-phase2/logs/
-phase3/logs/
-
-# Python
+﻿# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -34,11 +23,3 @@ derby.log/
 # Temporary files
 *.tmp
 *.temp
-
-# Phase 3 raw ingestion data
-phase3/data/raw/
-phase3/data/processed/
-phase3/data/analytics/
-
-# Java crash logs
-phase2/hs_err_pid*.log

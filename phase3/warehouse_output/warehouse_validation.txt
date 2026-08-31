@@ -1,0 +1,15 @@
+Warehouse Modelling for Network Analytics
+======================================================================
+
+[PASS] Fact row count equals source row count
+       source=240,000, fact=240,000
+[PASS] dim_grid count equals distinct grid count
+       source_distinct=10,000, dim_grid=10,000
+[PASS] No duplicate dim_grid keys
+       duplicates=0
+[PASS] fact_network_activity contains no geometry
+       geometry column absent
+[PASS] SQL aggregate exactly matches source aggregate
+       SMS=0.0, CALLS=0.0, INTERNET=82479246.5911
+[PASS] Required analytical indexes exist
+       idx_dim_grid_id, idx_fact_event_time, idx_fact_grid, idx_fact_grid_time, idx_fact_time, sqlite_autoindex_dim_grid_1, sqlite_autoindex_dim_time_1

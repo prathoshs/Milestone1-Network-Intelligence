@@ -1,0 +1,10 @@
+2026-08-26 16:44:02,512 | INFO | Data loaded | file=D:\Milestone1proj\dataset\sms-call-internet-mi-2013-11-01.csv | rows=1891928 | columns=8
+2026-08-26 16:44:02,875 | INFO | Activity nulls handled | count=6040867 | policy=null_to_zero
+2026-08-26 16:44:03,743 | INFO | Cleaning completed | input_rows=1891928 | dropped_rows=0 | output_rows=1891928
+2026-08-26 16:44:04,114 | INFO | Time features created | date, hour, day_of_week
+2026-08-26 16:44:04,267 | INFO | Grid/hour aggregation completed | rows=240000
+2026-08-26 16:44:04,274 | INFO | Activity features created | total_sms, total_calls, total_activity
+2026-08-26 16:44:04,361 | INFO | KPI computation completed | daily_rows=1 | grid_rows=10000
+2026-08-26 16:44:04,398 | INFO | Daily summary exported | path=output\daily_summary.csv
+2026-08-26 16:44:04,405 | INFO | Grid summary exported | path=output\grid_summary.csv
+2026-08-26 16:44:04,406 | INFO | UsageProcessor pipeline completed successfully.

@@ -1,0 +1,7 @@
+2026-08-28 10:45:00,000 | INFO | START_TIME=2026-08-28T10:45:00.000767
+2026-08-28 10:45:08,426 | INFO | INPUT_FILES=7
+2026-08-28 10:45:44,304 | ERROR | STATUS=FAILED | ERROR=[CAST_INVALID_INPUT] The value '' of the type "STRING" cannot be cast to "BIGINT" because it is malformed. Correct the value as per the syntax, or change its target type. Use `try_cast` to tolerate malformed input and return NULL instead. SQLSTATE: 22018
+== DataFrame ==
+"__eq__" was called from
+D:\Milestone1proj\phase2\sp7_sparketl.py:109
+

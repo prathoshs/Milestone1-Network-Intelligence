@@ -1,0 +1,50 @@
+STORAGE DIRECTORY DESIGN
+========================
+
+landing/
+└── incoming daily CSV files
+
+raw/
+└── accepted/
+    ├── 2013-11-01/
+    │   └── *.csv
+    ├── 2013-11-02/
+    │   └── *.csv
+    └── 2013-11-03/
+        └── *.csv
+
+reference/
+└── milano-grid.geojson
+
+processed/
+└── activity/
+    ├── date=2013-11-01/
+    │   └── *.parquet
+    ├── date=2013-11-02/
+    │   └── *.parquet
+    └── date=2013-11-03/
+        └── *.parquet
+
+analytics/
+├── hourly_grid_summary/
+│   └── *.parquet
+└── dashboard_summary/
+    └── *.parquet / *.csv
+
+logs/
+├── ingestion/
+│   └── *.log
+└── processing/
+    └── *.log
+
+
+PARTITIONING RULES
+==================
+
+1. Processed activity data is date-partitioned.
+2. Date partitions use the format:
+       date=YYYY-MM-DD
+3. The reference zone is NOT date-partitioned.
+4. Static reference data is stored at a stable location.
+5. Analytics partitioning is based on query requirements.
+6. Logs may be organized by date but remain operational records.
