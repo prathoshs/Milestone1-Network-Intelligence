@@ -1,503 +1,0 @@
-2026-08-29 10:40:33,444 | INFO | START_TIME=2026-08-29T10:40:33.444384
-WARNING: Using incubator modules: jdk.incubator.vector
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/08/29 10:40:37 WARN Utils: Your hostname, DESKTOP-7296I2R, resolves to a loopback address: 127.0.1.1; using 172.24.17.165 instead (on interface eth0)
-26/08/29 10:40:37 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/08/29 10:40:40 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2026-08-29 10:40:47,893 | INFO | INPUT_FILES=1
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 4) / 8][Stage 1:======================>                                    (3 + 4) / 8][Stage 1:=============================>                             (4 + 4) / 8][Stage 1:====================================>                      (5 + 3) / 8]                                                                                [Stage 2:>                                                          (0 + 4) / 8][Stage 2:=============================>                             (4 + 4) / 8][Stage 2:====================================>                      (5 + 3) / 8]                                                                                2026-08-29 10:41:01,344 | INFO | INPUT_ROWS=1891928
-[Stage 5:>                                                          (0 + 4) / 8][Stage 5:=============================>                             (4 + 4) / 8][Stage 5:===================================================>       (7 + 1) / 8]                                                                                [Stage 8:>                                                          (0 + 4) / 8][Stage 8:=============================>                             (4 + 4) / 8][Stage 8:====================================>                      (5 + 3) / 8][Stage 8:===================================================>       (7 + 1) / 8]                                                                                [Stage 11:>                                                         (0 + 4) / 8][Stage 11:=============================>                            (4 + 4) / 8][Stage 11:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 10:41:13,875 | INFO | REJECTED_ROWS=0
-2026-08-29 10:41:13,876 | INFO | NULLS_HANDLED=0
-2026-08-29 10:41:13,878 | INFO | OUTPUT_ROWS=1891928
-[Stage 14:>                                                         (0 + 4) / 8][Stage 14:=======>                                                  (1 + 4) / 8][Stage 14:=============================>                            (4 + 4) / 8][Stage 14:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 10:41:20,014 | INFO | AGGREGATED_ROWS=240000
-[Stage 20:>                                                         (0 + 3) / 3][Stage 20:===================>                                      (1 + 2) / 3]                                                                                2026-08-29 10:41:23,028 | INFO | REFERENCE_PATH=/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/reference/milano-grid.geojson
-2026-08-29 10:41:23,032 | WARNING | Reference file has no grid_id column; continuing without reference join.
-[Stage 21:>                                                         (0 + 4) / 8][Stage 21:=============================>                            (4 + 4) / 8][Stage 21:====================================>                     (5 + 3) / 8][Stage 23:=================================================>        (6 + 1) / 7]                                                                                2026-08-29 10:41:43,633 | INFO | PROCESSED_OUTPUT=/home/airflowuser/de3_output/processed/activity
-[Stage 24:>                                                         (0 + 4) / 8][Stage 24:=============================>                            (4 + 4) / 8][Stage 24:====================================>                     (5 + 3) / 8][Stage 24:==================================================>       (7 + 1) / 8][Stage 26:>                                                         (0 + 4) / 8][Stage 26:=============================>                            (4 + 4) / 8][Stage 29:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 10:41:52,543 | INFO | ANALYTICS_OUTPUT=/home/airflowuser/de3_output/analytics/hourly_grid_summary
-[Stage 30:>                                                         (0 + 4) / 8][Stage 30:=============================>                            (4 + 4) / 8][Stage 30:====================================>                     (5 + 3) / 8][Stage 30:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 10:41:58,721 | INFO | DASHBOARD_OUTPUT=/home/airflowuser/de3_output/analytics/dashboard_summary
-2026-08-29 10:41:58,723 | INFO | END_TIME=2026-08-29T10:41:58.723047
-2026-08-29 10:41:58,725 | INFO | STATUS=SUCCESS
-2026-08-29 10:41:59,308 | INFO | Closing down clientserver connection
-2026-08-29 10:43:52,489 | INFO | START_TIME=2026-08-29T10:43:52.489560
-WARNING: Using incubator modules: jdk.incubator.vector
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/08/29 10:43:56 WARN Utils: Your hostname, DESKTOP-7296I2R, resolves to a loopback address: 127.0.1.1; using 172.24.17.165 instead (on interface eth0)
-26/08/29 10:43:56 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/08/29 10:43:58 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2026-08-29 10:44:05,520 | INFO | INPUT_FILES=1
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 4) / 8][Stage 1:==============>                                            (2 + 4) / 8][Stage 1:=============================>                             (4 + 4) / 8][Stage 1:====================================>                      (5 + 3) / 8]                                                                                [Stage 2:>                                                          (0 + 4) / 8][Stage 2:=============================>                             (4 + 4) / 8][Stage 2:====================================>                      (5 + 3) / 8]                                                                                2026-08-29 10:44:19,354 | INFO | INPUT_ROWS=1891928
-[Stage 5:>                                                          (0 + 4) / 8][Stage 5:=============================>                             (4 + 4) / 8][Stage 5:====================================>                      (5 + 3) / 8]                                                                                [Stage 8:>                                                          (0 + 4) / 8][Stage 8:=============================>                             (4 + 4) / 8][Stage 8:====================================>                      (5 + 3) / 8][Stage 8:===================================================>       (7 + 1) / 8]                                                                                [Stage 11:>                                                         (0 + 4) / 8][Stage 11:=======>                                                  (1 + 4) / 8][Stage 11:=============================>                            (4 + 4) / 8][Stage 11:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 10:44:31,147 | INFO | REJECTED_ROWS=0
-2026-08-29 10:44:31,150 | INFO | NULLS_HANDLED=0
-2026-08-29 10:44:31,152 | INFO | OUTPUT_ROWS=1891928
-[Stage 14:>                                                         (0 + 4) / 8][Stage 14:=============================>                            (4 + 4) / 8][Stage 14:====================================>                     (5 + 3) / 8][Stage 14:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 10:44:37,312 | INFO | AGGREGATED_ROWS=240000
-[Stage 20:>                                                         (0 + 3) / 3][Stage 20:===================>                                      (1 + 2) / 3]                                                                                2026-08-29 10:44:40,381 | INFO | REFERENCE_PATH=/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/reference/milano-grid.geojson
-2026-08-29 10:44:40,387 | WARNING | Reference file has no grid_id column; continuing without reference join.
-[Stage 21:>                                                         (0 + 4) / 8][Stage 21:=====================>                                    (3 + 4) / 8][Stage 21:=============================>                            (4 + 4) / 8][Stage 21:====================================>                     (5 + 3) / 8][Stage 23:=================================================>        (6 + 1) / 7]                                                                                2026-08-29 10:45:00,913 | INFO | PROCESSED_OUTPUT=/home/airflowuser/de3_output/processed/activity
-[Stage 24:>                                                         (0 + 4) / 8][Stage 24:=============================>                            (4 + 4) / 8][Stage 24:====================================>                     (5 + 3) / 8][Stage 24:==================================================>       (7 + 1) / 8][Stage 26:====================================>                     (5 + 3) / 8][Stage 29:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 10:45:09,179 | INFO | ANALYTICS_OUTPUT=/home/airflowuser/de3_output/analytics/hourly_grid_summary
-[Stage 30:>                                                         (0 + 4) / 8][Stage 30:=======>                                                  (1 + 4) / 8][Stage 30:=============================>                            (4 + 4) / 8][Stage 30:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 10:45:15,390 | INFO | DASHBOARD_OUTPUT=/home/airflowuser/de3_output/analytics/dashboard_summary
-2026-08-29 10:45:15,392 | INFO | END_TIME=2026-08-29T10:45:15.392369
-2026-08-29 10:45:15,394 | INFO | STATUS=SUCCESS
-2026-08-29 10:45:15,698 | INFO | Closing down clientserver connection
-
-============================================================
-START_TIME=2026-08-29T10:43:51.890360
-STATUS=STARTED
-END_TIME=2026-08-29T10:45:15.829180
-STATUS=SUCCESS
-2026-08-29 11:00:48,679 | INFO | START_TIME=2026-08-29T11:00:48.679602
-WARNING: Using incubator modules: jdk.incubator.vector
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/08/29 11:00:53 WARN Utils: Your hostname, DESKTOP-7296I2R, resolves to a loopback address: 127.0.1.1; using 172.24.17.165 instead (on interface eth0)
-26/08/29 11:00:53 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/08/29 11:00:55 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2026-08-29 11:01:03,264 | INFO | INPUT_FILES=1
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 4) / 8][Stage 1:=============================>                             (4 + 4) / 8][Stage 1:====================================>                      (5 + 3) / 8][Stage 1:===================================================>       (7 + 1) / 8]                                                                                [Stage 2:>                                                          (0 + 4) / 8][Stage 2:=============================>                             (4 + 4) / 8][Stage 2:====================================>                      (5 + 3) / 8]                                                                                2026-08-29 11:01:18,033 | INFO | INPUT_ROWS=1891928
-[Stage 5:>                                                          (0 + 4) / 8][Stage 5:=============================>                             (4 + 4) / 8][Stage 5:====================================>                      (5 + 3) / 8]                                                                                [Stage 8:>                                                          (0 + 4) / 8][Stage 8:=============================>                             (4 + 4) / 8][Stage 8:====================================>                      (5 + 3) / 8]                                                                                [Stage 11:>                                                         (0 + 4) / 8][Stage 11:=============================>                            (4 + 4) / 8][Stage 11:====================================>                     (5 + 3) / 8][Stage 11:===========================================>              (6 + 2) / 8]                                                                                2026-08-29 11:01:29,689 | INFO | REJECTED_ROWS=0
-2026-08-29 11:01:29,692 | INFO | NULLS_HANDLED=0
-2026-08-29 11:01:29,693 | INFO | OUTPUT_ROWS=1891928
-[Stage 14:>                                                         (0 + 4) / 8][Stage 14:=============================>                            (4 + 4) / 8][Stage 14:====================================>                     (5 + 3) / 8][Stage 14:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 11:01:35,077 | INFO | AGGREGATED_ROWS=240000
-[Stage 20:>                                                         (0 + 3) / 3][Stage 20:===================>                                      (1 + 2) / 3][Stage 20:======================================>                   (2 + 1) / 3]                                                                                2026-08-29 11:01:38,286 | INFO | REFERENCE_PATH=/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/reference/milano-grid.geojson
-2026-08-29 11:01:38,289 | WARNING | Reference file has no grid_id column; continuing without reference join.
-[Stage 21:>                                                         (0 + 4) / 8][Stage 21:=============================>                            (4 + 4) / 8][Stage 21:====================================>                     (5 + 3) / 8]2026-08-29 11:01:44,970 | ERROR | STATUS=FAILED
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 500, in main
-    write_outputs(
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 359, in write_outputs
-    .parquet(str(processed / "activity"))
-     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/sql/readwriter.py", line 2093, in parquet
-    self._jwrite.parquet(path)
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/java_gateway.py", line 1362, in __call__
-    return_value = get_return_value(
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py", line 251, in deco
-    return f(*a, **kw)
-           ^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/protocol.py", line 327, in get_return_value
-    raise Py4JJavaError(
-py4j.protocol.Py4JJavaError: An error occurred while calling o355.parquet.
-: ExitCodeException exitCode=1: chmod: Operation not permitted (os error 1)
-
-	at org.apache.hadoop.util.Shell.runCommand(Shell.java:1071)
-	at org.apache.hadoop.util.Shell.run(Shell.java:960)
-	at org.apache.hadoop.util.Shell$ShellCommandExecutor.execute(Shell.java:1285)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1380)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1362)
-	at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
-	at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:361)
-	at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
-	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:156)
-	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
-	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:408)
-	at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$2(SQLExecution.scala:63)
-	at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:352)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$1(SQLExecution.scala:61)
-	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.runWith(SQLExecution.scala:57)
-	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$1(SQLExecution.scala:401)
-	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at org.apache.spark.util.Utils$.getTryWithCallerStacktrace(Utils.scala:1457)
-	at org.apache.spark.util.LazyTry.get(LazyTry.scala:61)
-	at org.apache.spark.sql.execution.QueryExecution.$anonfun$commandExecuted$1(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.withAbortTransactionOnFailure(QueryExecution.scala:632)
-	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:309)
-	at org.apache.spark.sql.classic.DataFrameWriter.runCommand(DataFrameWriter.scala:615)
-	at org.apache.spark.sql.classic.DataFrameWriter.save(DataFrameWriter.scala:115)
-	at org.apache.spark.sql.DataFrameWriter.parquet(DataFrameWriter.scala:381)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
-	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
-	at py4j.Gateway.invoke(Gateway.java:282)
-	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
-	at py4j.commands.CallCommand.execute(CallCommand.java:79)
-	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
-	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 524, in <module>
-    main()
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 500, in main
-    write_outputs(
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 359, in write_outputs
-    .parquet(str(processed / "activity"))
-     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/sql/readwriter.py", line 2093, in parquet
-    self._jwrite.parquet(path)
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/java_gateway.py", line 1362, in __call__
-    return_value = get_return_value(
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py", line 251, in deco
-    return f(*a, **kw)
-           ^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/protocol.py", line 327, in get_return_value
-    raise Py4JJavaError(
-py4j.protocol.Py4JJavaError: An error occurred while calling o355.parquet.
-: ExitCodeException exitCode=1: chmod: Operation not permitted (os error 1)
-
-	at org.apache.hadoop.util.Shell.runCommand(Shell.java:1071)
-	at org.apache.hadoop.util.Shell.run(Shell.java:960)
-	at org.apache.hadoop.util.Shell$ShellCommandExecutor.execute(Shell.java:1285)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1380)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1362)
-	at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
-	at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:361)
-	at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
-	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:156)
-	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
-	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:408)
-	at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$2(SQLExecution.scala:63)
-	at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:352)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$1(SQLExecution.scala:61)
-	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.runWith(SQLExecution.scala:57)
-	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$1(SQLExecution.scala:401)
-	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at org.apache.spark.util.Utils$.getTryWithCallerStacktrace(Utils.scala:1457)
-	at org.apache.spark.util.LazyTry.get(LazyTry.scala:61)
-	at org.apache.spark.sql.execution.QueryExecution.$anonfun$commandExecuted$1(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.withAbortTransactionOnFailure(QueryExecution.scala:632)
-	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:309)
-	at org.apache.spark.sql.classic.DataFrameWriter.runCommand(DataFrameWriter.scala:615)
-	at org.apache.spark.sql.classic.DataFrameWriter.save(DataFrameWriter.scala:115)
-	at org.apache.spark.sql.DataFrameWriter.parquet(DataFrameWriter.scala:381)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
-	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
-	at py4j.Gateway.invoke(Gateway.java:282)
-	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
-	at py4j.commands.CallCommand.execute(CallCommand.java:79)
-	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
-	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-
-2026-08-29 11:01:45,681 | INFO | Closing down clientserver connection
-
-============================================================
-START_TIME=2026-08-29T11:00:48.058932
-STATUS=STARTED
-END_TIME=2026-08-29T11:01:45.806694
-STATUS=FAILED
-RETURN_CODE=1
-2026-08-29 11:08:22,315 | INFO | START_TIME=2026-08-29T11:08:22.315363
-WARNING: Using incubator modules: jdk.incubator.vector
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/08/29 11:08:26 WARN Utils: Your hostname, DESKTOP-7296I2R, resolves to a loopback address: 127.0.1.1; using 172.24.17.165 instead (on interface eth0)
-26/08/29 11:08:26 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/08/29 11:08:28 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2026-08-29 11:08:37,184 | INFO | INPUT_FILES=1
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 4) / 8][Stage 1:==============>                                            (2 + 4) / 8][Stage 1:=============================>                             (4 + 4) / 8][Stage 1:====================================>                      (5 + 3) / 8][Stage 1:===================================================>       (7 + 1) / 8]                                                                                [Stage 2:>                                                          (0 + 4) / 8][Stage 2:=============================>                             (4 + 4) / 8][Stage 2:====================================>                      (5 + 3) / 8]                                                                                2026-08-29 11:08:50,940 | INFO | INPUT_ROWS=1891928
-[Stage 5:>                                                          (0 + 4) / 8][Stage 5:=============================>                             (4 + 4) / 8][Stage 5:====================================>                      (5 + 3) / 8][Stage 5:===================================================>       (7 + 1) / 8]                                                                                [Stage 8:>                                                          (0 + 4) / 8][Stage 8:=============================>                             (4 + 4) / 8][Stage 8:====================================>                      (5 + 3) / 8]                                                                                [Stage 11:>                                                         (0 + 4) / 8][Stage 11:=============================>                            (4 + 4) / 8][Stage 11:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 11:09:04,391 | INFO | REJECTED_ROWS=0
-2026-08-29 11:09:04,392 | INFO | NULLS_HANDLED=0
-2026-08-29 11:09:04,394 | INFO | OUTPUT_ROWS=1891928
-[Stage 14:>                                                         (0 + 4) / 8][Stage 14:==============>                                           (2 + 5) / 8][Stage 14:=============================>                            (4 + 4) / 8][Stage 14:====================================>                     (5 + 3) / 8][Stage 14:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 11:09:10,901 | INFO | AGGREGATED_ROWS=240000
-[Stage 20:>                                                         (0 + 3) / 3][Stage 20:===================>                                      (1 + 2) / 3]                                                                                2026-08-29 11:09:14,052 | INFO | REFERENCE_PATH=/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/reference/milano-grid.geojson
-2026-08-29 11:09:14,059 | WARNING | Reference file has no grid_id column; continuing without reference join.
-[Stage 21:>                                                         (0 + 4) / 8][Stage 21:=====================>                                    (3 + 4) / 8][Stage 21:=============================>                            (4 + 4) / 8][Stage 21:====================================>                     (5 + 3) / 8][Stage 21:===========================================>              (6 + 2) / 8]2026-08-29 11:09:19,790 | ERROR | STATUS=FAILED
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 500, in main
-    write_outputs(
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 359, in write_outputs
-    .parquet(str(processed / "activity"))
-     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/sql/readwriter.py", line 2093, in parquet
-    self._jwrite.parquet(path)
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/java_gateway.py", line 1362, in __call__
-    return_value = get_return_value(
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py", line 251, in deco
-    return f(*a, **kw)
-           ^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/protocol.py", line 327, in get_return_value
-    raise Py4JJavaError(
-py4j.protocol.Py4JJavaError: An error occurred while calling o355.parquet.
-: ExitCodeException exitCode=1: chmod: Operation not permitted (os error 1)
-
-	at org.apache.hadoop.util.Shell.runCommand(Shell.java:1071)
-	at org.apache.hadoop.util.Shell.run(Shell.java:960)
-	at org.apache.hadoop.util.Shell$ShellCommandExecutor.execute(Shell.java:1285)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1380)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1362)
-	at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
-	at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:361)
-	at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
-	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:156)
-	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
-	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:408)
-	at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$2(SQLExecution.scala:63)
-	at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:352)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$1(SQLExecution.scala:61)
-	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.runWith(SQLExecution.scala:57)
-	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$1(SQLExecution.scala:401)
-	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at org.apache.spark.util.Utils$.getTryWithCallerStacktrace(Utils.scala:1457)
-	at org.apache.spark.util.LazyTry.get(LazyTry.scala:61)
-	at org.apache.spark.sql.execution.QueryExecution.$anonfun$commandExecuted$1(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.withAbortTransactionOnFailure(QueryExecution.scala:632)
-	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:309)
-	at org.apache.spark.sql.classic.DataFrameWriter.runCommand(DataFrameWriter.scala:615)
-	at org.apache.spark.sql.classic.DataFrameWriter.save(DataFrameWriter.scala:115)
-	at org.apache.spark.sql.DataFrameWriter.parquet(DataFrameWriter.scala:381)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
-	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
-	at py4j.Gateway.invoke(Gateway.java:282)
-	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
-	at py4j.commands.CallCommand.execute(CallCommand.java:79)
-	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
-	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 524, in <module>
-    main()
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 500, in main
-    write_outputs(
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 359, in write_outputs
-    .parquet(str(processed / "activity"))
-     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/sql/readwriter.py", line 2093, in parquet
-    self._jwrite.parquet(path)
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/java_gateway.py", line 1362, in __call__
-    return_value = get_return_value(
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/pyspark/errors/exceptions/captured.py", line 251, in deco
-    return f(*a, **kw)
-           ^^^^^^^^^^^
-  File "/home/airflowuser/airflow_venv/lib/python3.11/site-packages/py4j/protocol.py", line 327, in get_return_value
-    raise Py4JJavaError(
-py4j.protocol.Py4JJavaError: An error occurred while calling o355.parquet.
-: ExitCodeException exitCode=1: chmod: Operation not permitted (os error 1)
-
-	at org.apache.hadoop.util.Shell.runCommand(Shell.java:1071)
-	at org.apache.hadoop.util.Shell.run(Shell.java:960)
-	at org.apache.hadoop.util.Shell$ShellCommandExecutor.execute(Shell.java:1285)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1380)
-	at org.apache.hadoop.util.Shell.execCommand(Shell.java:1362)
-	at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
-	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
-	at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
-	at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:361)
-	at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
-	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:156)
-	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
-	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
-	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:408)
-	at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$2(SQLExecution.scala:63)
-	at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:352)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.$anonfun$runWith$1(SQLExecution.scala:61)
-	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
-	at org.apache.spark.sql.execution.SQLExecutionThreadLocalCaptured.runWith(SQLExecution.scala:57)
-	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$1(SQLExecution.scala:401)
-	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at org.apache.spark.util.Utils$.getTryWithCallerStacktrace(Utils.scala:1457)
-	at org.apache.spark.util.LazyTry.get(LazyTry.scala:61)
-	at org.apache.spark.sql.execution.QueryExecution.$anonfun$commandExecuted$1(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.withAbortTransactionOnFailure(QueryExecution.scala:632)
-	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:224)
-	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:309)
-	at org.apache.spark.sql.classic.DataFrameWriter.runCommand(DataFrameWriter.scala:615)
-	at org.apache.spark.sql.classic.DataFrameWriter.save(DataFrameWriter.scala:115)
-	at org.apache.spark.sql.DataFrameWriter.parquet(DataFrameWriter.scala:381)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
-	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
-	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
-	at py4j.Gateway.invoke(Gateway.java:282)
-	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
-	at py4j.commands.CallCommand.execute(CallCommand.java:79)
-	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
-	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-
-2026-08-29 11:09:20,311 | INFO | Closing down clientserver connection
-
-============================================================
-START_TIME=2026-08-29T11:08:21.623608
-STATUS=STARTED
-END_TIME=2026-08-29T11:09:20.487492
-STATUS=FAILED
-RETURN_CODE=1
-2026-08-29 11:22:21,021 | INFO | START_TIME=2026-08-29T11:22:21.021605
-WARNING: Using incubator modules: jdk.incubator.vector
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/08/29 11:22:25 WARN Utils: Your hostname, DESKTOP-7296I2R, resolves to a loopback address: 127.0.1.1; using 172.24.17.165 instead (on interface eth0)
-26/08/29 11:22:25 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/08/29 11:22:27 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2026-08-29 11:22:35,700 | INFO | INPUT_FILES=1
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 4) / 8][Stage 1:=======>                                                   (1 + 4) / 8][Stage 1:=============================>                             (4 + 4) / 8][Stage 1:====================================>                      (5 + 3) / 8]                                                                                [Stage 2:>                                                          (0 + 4) / 8][Stage 2:=============================>                             (4 + 4) / 8][Stage 2:====================================>                      (5 + 3) / 8][Stage 2:============================================>              (6 + 2) / 8]                                                                                2026-08-29 11:22:50,071 | INFO | INPUT_ROWS=1891928
-[Stage 5:>                                                          (0 + 4) / 8][Stage 5:>                                                          (0 + 5) / 8][Stage 5:=============================>                             (4 + 4) / 8][Stage 5:====================================>                      (5 + 3) / 8]                                                                                [Stage 8:>                                                          (0 + 4) / 8][Stage 8:=============================>                             (4 + 4) / 8][Stage 8:====================================>                      (5 + 3) / 8]                                                                                [Stage 11:>                                                         (0 + 4) / 8][Stage 11:=======>                                                  (1 + 4) / 8][Stage 11:=============================>                            (4 + 4) / 8][Stage 11:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 11:23:03,404 | INFO | REJECTED_ROWS=0
-2026-08-29 11:23:03,406 | INFO | NULLS_HANDLED=0
-2026-08-29 11:23:03,407 | INFO | OUTPUT_ROWS=1891928
-[Stage 14:>                                                         (0 + 4) / 8][Stage 14:=============================>                            (4 + 4) / 8][Stage 14:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 11:23:09,189 | INFO | AGGREGATED_ROWS=240000
-[Stage 20:>                                                         (0 + 3) / 3][Stage 20:===================>                                      (1 + 2) / 3]                                                                                2026-08-29 11:23:12,307 | INFO | REFERENCE_PATH=/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/reference/milano-grid.geojson
-2026-08-29 11:23:12,310 | WARNING | Reference file has no grid_id column; continuing without reference join.
-[Stage 21:>                                                         (0 + 4) / 8][Stage 21:=============================>                            (4 + 4) / 8][Stage 21:====================================>                     (5 + 3) / 8][Stage 23:=================================================>        (6 + 1) / 7]                                                                                2026-08-29 11:23:36,514 | INFO | PROCESSED_OUTPUT=/home/airflowuser/de3_output/processed/activity
-[Stage 24:>                                                         (0 + 4) / 8][Stage 24:=============================>                            (4 + 4) / 8][Stage 24:====================================>                     (5 + 3) / 8][Stage 24:==================================================>       (7 + 1) / 8][Stage 26:====================================>                     (5 + 3) / 8][Stage 29:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 11:23:44,812 | INFO | ANALYTICS_OUTPUT=/home/airflowuser/de3_output/analytics/hourly_grid_summary
-[Stage 30:>                                                         (0 + 4) / 8][Stage 30:=============================>                            (4 + 4) / 8][Stage 30:====================================>                     (5 + 3) / 8][Stage 32:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 11:23:51,877 | INFO | DASHBOARD_OUTPUT=/home/airflowuser/de3_output/analytics/dashboard_summary
-2026-08-29 11:23:51,879 | INFO | END_TIME=2026-08-29T11:23:51.879586
-2026-08-29 11:23:51,881 | INFO | STATUS=SUCCESS
-2026-08-29 11:23:52,350 | INFO | Closing down clientserver connection
-
-============================================================
-START_TIME=2026-08-29T11:22:20.375594
-STATUS=STARTED
-END_TIME=2026-08-29T11:23:52.510514
-STATUS=SUCCESS
-2026-08-29 11:29:06,176 | INFO | START_TIME=2026-08-29T11:29:06.176594
-WARNING: Using incubator modules: jdk.incubator.vector
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/08/29 11:29:10 WARN Utils: Your hostname, DESKTOP-7296I2R, resolves to a loopback address: 127.0.1.1; using 172.24.17.165 instead (on interface eth0)
-26/08/29 11:29:10 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/08/29 11:29:12 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2026-08-29 11:29:20,435 | INFO | INPUT_FILES=1
-[Stage 0:>                                                          (0 + 1) / 1]                                                                                [Stage 1:>                                                          (0 + 4) / 8][Stage 1:=======>                                                   (1 + 4) / 8][Stage 1:======================>                                    (3 + 4) / 8][Stage 1:=============================>                             (4 + 4) / 8][Stage 1:====================================>                      (5 + 3) / 8]                                                                                [Stage 2:>                                                          (0 + 4) / 8][Stage 2:=============================>                             (4 + 4) / 8][Stage 2:====================================>                      (5 + 3) / 8]                                                                                2026-08-29 11:29:34,493 | INFO | INPUT_ROWS=1891928
-[Stage 5:>                                                          (0 + 4) / 8][Stage 5:=============================>                             (4 + 4) / 8][Stage 5:===================================================>       (7 + 1) / 8]                                                                                [Stage 8:>                                                          (0 + 4) / 8][Stage 8:=============================>                             (4 + 4) / 8][Stage 8:====================================>                      (5 + 3) / 8]                                                                                [Stage 11:>                                                         (0 + 4) / 8][Stage 11:=============================>                            (4 + 4) / 8][Stage 11:====================================>                     (5 + 3) / 8][Stage 11:==================================================>       (7 + 1) / 8]                                                                                2026-08-29 11:29:47,919 | INFO | REJECTED_ROWS=0
-2026-08-29 11:29:47,948 | INFO | NULLS_HANDLED=0
-2026-08-29 11:29:47,999 | INFO | OUTPUT_ROWS=1891928
-[Stage 14:>                                                         (0 + 4) / 8][Stage 14:=====================>                                    (3 + 4) / 8][Stage 14:=============================>                            (4 + 4) / 8][Stage 14:====================================>                     (5 + 3) / 8]                                                                                2026-08-29 11:29:54,433 | INFO | AGGREGATED_ROWS=240000
-2026-08-29 11:29:54,439 | ERROR | STATUS=FAILED
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 495, in main
-    enriched = enrich(
-               ^^^^^^^
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 276, in enrich
-    raise FileNotFoundError(
-FileNotFoundError: GeoJSON reference not found: /mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/reference/milano-grid.geojson
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 524, in <module>
-    main()
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 495, in main
-    enriched = enrich(
-               ^^^^^^^
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 276, in enrich
-    raise FileNotFoundError(
-FileNotFoundError: GeoJSON reference not found: /mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/reference/milano-grid.geojson
-2026-08-29 11:29:54,657 | INFO | Closing down clientserver connection
-
-============================================================
-START_TIME=2026-08-29T11:29:05.715662
-STATUS=STARTED
-END_TIME=2026-08-29T11:29:54.841982
-STATUS=FAILED
-RETURN_CODE=1
-2026-08-29 11:31:42,962 | INFO | START_TIME=2026-08-29T11:31:42.962226
-WARNING: Using incubator modules: jdk.incubator.vector
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/08/29 11:31:47 WARN Utils: Your hostname, DESKTOP-7296I2R, resolves to a loopback address: 127.0.1.1; using 172.24.17.165 instead (on interface eth0)
-26/08/29 11:31:47 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
-Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-Setting default log level to "WARN".
-To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/08/29 11:31:49 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2026-08-29 11:31:56,866 | ERROR | STATUS=FAILED
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 487, in main
-    raw = read_raw(
-          ^^^^^^^^^
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 75, in read_raw
-    raise FileNotFoundError(
-FileNotFoundError: No input files found in: /mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/raw
-Traceback (most recent call last):
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 524, in <module>
-    main()
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 487, in main
-    raw = read_raw(
-          ^^^^^^^^^
-  File "/mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/telecom_pipeline.py", line 75, in read_raw
-    raise FileNotFoundError(
-FileNotFoundError: No input files found in: /mnt/c/Users/Admin/Milestone1-Network-Intelligence/phase3/data/raw
-2026-08-29 11:31:57,199 | INFO | Closing down clientserver connection
-
-============================================================
-START_TIME=2026-08-29T11:31:42.457214
-STATUS=STARTED
-END_TIME=2026-08-29T11:31:57.352636
-STATUS=FAILED
-RETURN_CODE=1
