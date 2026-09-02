@@ -174,8 +174,9 @@ def normalize_source(df, columns):
 # ============================================================
 def load_reference_grid_ids():
     if not REFERENCE_FILE.exists():
-        print("Reference file not found.")
+        print("Reference GeoJSON not found.")
         return {}
+
     try:
         data = json.loads(
             REFERENCE_FILE.read_text(
@@ -185,25 +186,69 @@ def load_reference_grid_ids():
     except Exception:
         print("Reference GeoJSON could not be read.")
         return {}
+
     result = {}
-    features = data.get("features", [])
-    for feature in features:
+
+    for feature in data.get("features", []):
         properties = feature.get("properties", {})
+
         grid_id = (
-            properties.get("grid_id")
+            properties.get("cellId")
+            or properties.get("grid_id")
             or properties.get("gridId")
             or properties.get("id")
         )
+
         if grid_id is None:
             continue
+
         geometry = feature.get("geometry")
+
+        if not geometry:
+            continue
+
+        coordinates = geometry.get("coordinates", [])
+
+        # Polygon geometry:
+        # coordinates[0] contains the exterior ring.
+        if geometry.get("type") == "Polygon":
+            outer_ring = coordinates[0]
+
+            if not outer_ring:
+                continue
+
+            longitudes = [
+                point[0]
+                for point in outer_ring
+            ]
+
+            latitudes = [
+                point[1]
+                for point in outer_ring
+            ]
+
+            centroid_longitude = (
+                min(longitudes) + max(longitudes)
+            ) / 2
+
+            centroid_latitude = (
+                min(latitudes) + max(latitudes)
+            ) / 2
+
+        else:
+            continue
+
         result[str(grid_id)] = {
-            "geometry_reference": (
-                json.dumps(geometry)
-                if geometry is not None
-                else None
-            )
+            "centroid_latitude":
+                centroid_latitude,
+
+            "centroid_longitude":
+                centroid_longitude,
+
+            "geometry_reference":
+                f"milano-grid.geojson#{grid_id}"
         }
+
     return result
 # ============================================================
 # DATABASE

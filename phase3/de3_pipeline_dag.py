@@ -2,15 +2,15 @@ from datetime import datetime
 import os
 import subprocess
 
-# from airflow import DAG
-# from airflow.operators.python import PythonOperator
+from airflow import DAG
+from airflow.providers.standard.operators.python import PythonOperator
 
 
 # ============================================================
 # CONFIGURATION
 # ============================================================
 
-PROJECT_DIR = "/mnt/c/Users/Admin/Milestone1-Network-Intelligence"
+PROJECT_DIR = "/home/prathosh/Milestone1-Network-Intelligence"
 
 AIRFLOW_PYTHON = os.path.expanduser(
     "~/airflow_venv/bin/python"
@@ -35,9 +35,19 @@ RAW_PATH = os.path.join(
     "raw",
 )
 
-PROCESSED_PATH = os.path.expanduser("~/de3_output/processed")
+PROCESSED_PATH = os.path.join(
+    PROJECT_DIR,
+    "phase3",
+    "data",
+    "processed",
+)
 
-ANALYTICS_PATH = os.path.expanduser("~/de3_output/analytics")
+ANALYTICS_PATH = os.path.join(
+    PROJECT_DIR,
+    "phase3",
+    "data",
+    "analytics",
+)
 
 REFERENCE_PATH = os.path.join(
     PROJECT_DIR,

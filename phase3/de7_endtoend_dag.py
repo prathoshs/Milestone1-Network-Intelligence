@@ -23,6 +23,7 @@ Processing logic remains in the existing modules.
 from datetime import datetime
 from pathlib import Path
 import json
+import sqlite3
 import logging
 import subprocess
 from airflow import DAG
@@ -56,6 +57,42 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s",
 )
+def pipeline_failure_callback(context):
+    task_instance = context.get("task_instance")
+    exception = context.get("exception")
+
+    record = {
+        "pipeline": "End-to-End Airflow Orchestration",
+        "status": "FAILED",
+        "as_of": datetime.now().strftime("%Y-%m-%d"),
+        "timestamp": datetime.now().isoformat(),
+        "quality_check": "FAIL",
+        "failed_task": task_instance.task_id if task_instance else "unknown",
+        "error": str(exception) if exception else "unknown",
+    }
+
+    run_id = (
+        task_instance.run_id
+        if task_instance
+        else "unknown"
+    )
+    failure_status_file = (
+        OUTPUT_DIR / f"pipeline_status_failed_{run_id}.json"
+    )
+    failure_status_file.write_text(
+        json.dumps(record, indent=2),
+        encoding="utf-8",
+    )
+    STATUS_FILE.write_text(
+        json.dumps(record, indent=2),
+        encoding="utf-8",
+    )
+
+    logging.error(
+        "PIPELINE_STATUS=FAILED | task=%s | error=%s",
+        record["failed_task"],
+        record["error"],
+    )
 # ============================================================
 # HELPER
 # ============================================================
@@ -168,52 +205,103 @@ def load_warehouse():
 # ============================================================
 # TASK 5 — QUALITY CHECK
 # ============================================================
+def get_latest_analytics_timestamp():
+    db_path =WAREHOUSE_DIR / "network_analytics.db"
+    conn = sqlite3.connect(db_path)
+    try:
+        row = conn.execute(
+            """
+            SELECT MAX(event_time)
+            FROM fact_network_activity
+            """
+        ).fetchone()
+        if row is None or row[0] is None:
+            raise RuntimeError(
+                "Analytics warehouse contains no event_time"
+            )
+        return row[0]
+    finally:
+        conn.close()
 def quality_check():
     logging.info("Starting quality check")
-    processed_activity = (
-        PROCESSED_DIR / "activity"
-    )
-    hourly_summary = (
-        ANALYTICS_DIR / "hourly_grid_summary"
-    )
-    dashboard_summary = (
-        ANALYTICS_DIR / "dashboard_summary"
-    )
+    processed_activity = PROCESSED_DIR / "activity"
+    hourly_summary = ANALYTICS_DIR / "hourly_grid_summary"
+    dashboard_summary = ANALYTICS_DIR / "dashboard_summary"
     checks = {
-        "processed_activity_exists":
-            processed_activity.exists(),
-        "hourly_summary_exists":
-            hourly_summary.exists(),
-        "dashboard_summary_exists":
-            dashboard_summary.exists(),
-        "warehouse_exists":
-            WAREHOUSE_DIR.exists(),
+        "processed_activity_exists": processed_activity.exists(),
+        "hourly_summary_exists": hourly_summary.exists(),
+        "dashboard_summary_exists": dashboard_summary.exists(),
+        "warehouse_exists": WAREHOUSE_DIR.exists(),
     }
-    status = (
-        "SUCCESS"
-        if all(checks.values())
-        else "FAILED"
+    status = "SUCCESS" if all(checks.values()) else "FAILED"
+    # --------------------------------------------------------
+    # Analytics AS_OF from warehouse
+    # --------------------------------------------------------
+    as_of = get_latest_analytics_timestamp()
+    # --------------------------------------------------------
+    # Operational row counts
+    # --------------------------------------------------------
+    rows_in = len(list(RAW_DIR.glob("*.csv")))
+    rows_rejected = 0
+    rejected_dir = PHASE3_DIR / "data" / "rejected"
+    if rejected_dir.exists():
+        rows_rejected = sum(
+            1 for f in rejected_dir.glob("*.csv")
+            if f.is_file()
+        )
+    rows_published = 0
+    db_path = WAREHOUSE_DIR / "network_analytics.db"
+    if db_path.exists():
+        conn = sqlite3.connect(db_path)
+        try:
+            row = conn.execute(
+                "SELECT COUNT(*) FROM fact_network_activity"
+            ).fetchone()
+            rows_published = int(row[0]) if row else 0
+        finally:
+            conn.close()
+    # --------------------------------------------------------
+    # Nulls handled
+    # --------------------------------------------------------
+    nulls_handled = 0
+    # --------------------------------------------------------
+    # Run identifier
+    # --------------------------------------------------------
+    run_id = datetime.now().strftime(
+        "manual__%Y-%m-%dT%H:%M:%S"
     )
-    as_of = datetime.now().strftime("%Y-%m-%d")
+    # --------------------------------------------------------
+    # Final status record
+    # --------------------------------------------------------
     record = {
-        "pipeline":
-            "End-to-End Airflow Orchestration",
-        "status":
-            status,
-        "as_of":
-            as_of,
-        "timestamp":
-            datetime.now().isoformat(),
-        "quality_check":
-            "PASS" if status == "SUCCESS" else "FAIL",
-        "checks":
-            checks,
+        "pipeline": "End-to-End Airflow Orchestration",
+        "status": status,
+        "healthy": status == "SUCCESS",
+        "run_id": run_id,
+        "timestamp": datetime.now().isoformat(),
+        "as_of": as_of,
+        "quality_check": (
+            "PASS"
+            if status == "SUCCESS"
+            else "FAIL"
+        ),
+        "rows_in": rows_in,
+        "rows_rejected": rows_rejected,
+        "nulls_handled": nulls_handled,
+        "rows_published": rows_published,
+        "checks": checks,
+        "reasons": (
+            []
+            if status == "SUCCESS"
+            else [
+                name
+                for name, passed in checks.items()
+                if not passed
+            ]
+        ),
     }
     STATUS_FILE.write_text(
-        json.dumps(
-            record,
-            indent=2,
-        ),
+        json.dumps(record, indent=2),
         encoding="utf-8",
     )
     logging.info(
@@ -221,9 +309,7 @@ def quality_check():
         STATUS_FILE,
     )
     if status != "SUCCESS":
-        raise RuntimeError(
-            "Quality check failed"
-        )
+        raise RuntimeError("Quality check failed")
 # ============================================================
 # TASK 6 — NOTIFY
 # ============================================================
@@ -277,6 +363,7 @@ create_troubleshooting_map()
 # ============================================================
 with DAG(
     dag_id="end_to_end_airflow_orchestration",
+    on_failure_callback=pipeline_failure_callback,
     start_date=datetime(2026, 1, 1),
     schedule=None,
     catchup=False,

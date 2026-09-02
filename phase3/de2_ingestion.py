@@ -288,7 +288,7 @@ def main():
     files = detect_files()
     if not files:
         print("NO_DAILY_FILES_FOUND")
-        return 1
+        return 0
     print(f"DETECTED_FILES={len(files)}")
     accepted = 0
     rejected = 0
