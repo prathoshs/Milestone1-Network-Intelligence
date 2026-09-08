@@ -13,6 +13,10 @@ Flow:
         ↓
     load_warehouse
         ↓
+    feature_generation
+        ↓
+    batch_score
+        ↓
     quality_check
         ↓
     notify
@@ -203,7 +207,49 @@ def load_warehouse():
     )
     logging.info("Warehouse load completed")
 # ============================================================
-# TASK 5 — QUALITY CHECK
+# TASK 5 — ML2 FEATURE GENERATION
+# ============================================================
+def feature_generation():
+    logging.info("Starting ML2 feature generation")
+    feature_script = (
+        PROJECT_DIR
+        / "phase6"
+        / "ml2_engnetactfeatures.py"
+    )
+    if not feature_script.exists():
+        raise FileNotFoundError(
+            f"Feature generation module not found: {feature_script}"
+        )
+    run_command(
+        [
+            str(AIRFLOW_PYTHON),
+            str(feature_script),
+        ]
+    )
+    logging.info("ML2 feature generation completed")
+# ============================================================
+# TASK 6 — ML6 BATCH SCORING
+# ============================================================
+def batch_score():
+    logging.info("Starting ML6 batch scoring")
+    scoring_script = (
+        PROJECT_DIR
+        / "phase6"
+        / "ml6_batchscore.py"
+    )
+    if not scoring_script.exists():
+        raise FileNotFoundError(
+            f"ML6 scoring module not found: {scoring_script}"
+        )
+    run_command(
+        [
+            str(AIRFLOW_PYTHON),
+            str(scoring_script),
+        ]
+    )
+    logging.info("ML6 batch scoring completed")
+# ============================================================
+# TASK 7 — QUALITY CHECK
 # ============================================================
 def get_latest_analytics_timestamp():
     db_path =WAREHOUSE_DIR / "network_analytics.db"
@@ -311,7 +357,7 @@ def quality_check():
     if status != "SUCCESS":
         raise RuntimeError("Quality check failed")
 # ============================================================
-# TASK 6 — NOTIFY
+# TASK 8 — NOTIFY
 # ============================================================
 def notify():
     logging.info("Starting notification")
@@ -401,11 +447,22 @@ with DAG(
         python_callable=notify,
         trigger_rule="all_success",
     )
+    feature_task = PythonOperator(
+    task_id="feature_generation",
+    python_callable=feature_generation,
+)
+
+    scoring_task = PythonOperator(
+    task_id="batch_score",
+    python_callable=batch_score,
+)
     (
         ingest_task
         >> validate_task
         >> spark_task
         >> warehouse_task
+        >> feature_task
+        >> scoring_task
         >> quality_task
         >> notify_task
     )

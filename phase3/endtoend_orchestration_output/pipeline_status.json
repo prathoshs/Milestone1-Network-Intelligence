@@ -1,13 +1,20 @@
 {
   "pipeline": "End-to-End Airflow Orchestration",
   "status": "SUCCESS",
-  "as_of": "2026-08-31",
-  "timestamp": "2026-08-31T01:44:03.028874",
+  "healthy": true,
+  "run_id": "manual__2026-09-05T19:54:12",
+  "timestamp": "2026-09-05T19:54:12.686723",
+  "as_of": "2013-11-07T23:00:00",
   "quality_check": "PASS",
+  "rows_in": 7,
+  "rows_rejected": 1,
+  "nulls_handled": 0,
+  "rows_published": 1679994,
   "checks": {
     "processed_activity_exists": true,
     "hourly_summary_exists": true,
     "dashboard_summary_exists": true,
     "warehouse_exists": true
-  }
+  },
+  "reasons": []
 }

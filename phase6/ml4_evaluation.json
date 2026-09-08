@@ -1,0 +1,20 @@
+{
+  "rows": 1679994,
+  "history_bucket_count": 240000,
+  "min_history_count": 4,
+  "max_history_count": 7,
+  "high_anomalies": 83298,
+  "low_anomalies": 70593,
+  "normal_observations": 1526103,
+  "comparison_rows": 249998,
+  "comparison_categories": {
+    "NONE": 135431,
+    "NP3_ONLY": 81952,
+    "ML3_ONLY": 7727,
+    "NP3_ML3": 7421,
+    "ML4_NP3": 6335,
+    "ALL_THREE": 6060,
+    "ML4_ONLY": 4146,
+    "ML4_ML3": 926
+  }
+}

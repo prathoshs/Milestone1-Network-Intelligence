@@ -1,0 +1,45 @@
+======================================================================
+ML6 Top-20 Operational Attention Report
+======================================================================
+Start time: 2026-09-07T15:29:30.087816
+Database: /home/prathosh/Milestone1-Network-Intelligence/phase3/warehouse_output/network_analytics.db
+Report: /home/prathosh/Milestone1-Network-Intelligence/phase6/ML6_Top20_Operational_Attention_Report.md
+Model version: ML3-LightGBM-v1
+
+======================================================================
+TOP-20 OPERATIONAL ATTENTION RECORDS
+======================================================================
+
+Rank  Grid ID      Timestamp            Risk Score   Risk Level  
+----------------------------------------------------------------------
+1     7052         2013-11-04 10:00:00  0.995912     HIGH        
+2     2529         2013-11-04 10:00:00  0.995490     HIGH        
+3     5773         2013-11-04 09:00:00  0.995223     HIGH        
+4     7052         2013-11-04 11:00:00  0.994962     HIGH        
+5     46           2013-11-04 10:00:00  0.994760     HIGH        
+6     45           2013-11-04 10:00:00  0.994760     HIGH        
+7     44           2013-11-04 10:00:00  0.994760     HIGH        
+8     5773         2013-11-04 10:00:00  0.994494     HIGH        
+9     5773         2013-11-04 12:00:00  0.994368     HIGH        
+10    46           2013-11-04 11:00:00  0.994342     HIGH        
+11    45           2013-11-04 11:00:00  0.994342     HIGH        
+12    44           2013-11-04 11:00:00  0.994342     HIGH        
+13    7152         2013-11-04 11:00:00  0.994212     HIGH        
+14    5504         2013-11-04 11:00:00  0.994178     HIGH        
+15    5773         2013-11-04 11:00:00  0.994090     HIGH        
+16    4574         2013-11-04 08:00:00  0.994075     HIGH        
+17    2366         2013-11-04 11:00:00  0.994057     HIGH        
+18    7151         2013-11-04 09:00:00  0.994040     HIGH        
+19    1543         2013-11-04 12:00:00  0.994037     HIGH        
+20    1542         2013-11-04 12:00:00  0.994037     HIGH        
+
+======================================================================
+RUN SUMMARY
+======================================================================
+Records retrieved: 20
+Report records written: 20
+Report written successfully: /home/prathosh/Milestone1-Network-Intelligence/phase6/ML6_Top20_Operational_Attention_Report.md
+Log written: /home/prathosh/Milestone1-Network-Intelligence/phase6/ML6_Top20_Operational_Attention_Report.log
+End time: 2026-09-07T15:29:30.118801
+Status: SUCCESS
+======================================================================

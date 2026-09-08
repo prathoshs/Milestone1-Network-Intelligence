@@ -111,12 +111,12 @@ def detect_columns(df):
     )
     sms_col = find_column(
         df,
-        ["sms", "sms_total", "sms_activity"],
+        ["total_sms", "sms", "sms_total", "sms_activity"],
         required=False
     )
     call_col = find_column(
         df,
-        ["calls", "call", "call_total", "calls_total"],
+        ["total_calls", "calls", "call", "call_total", "calls_total"],
         required=False
     )
     internet_col = find_column(
@@ -583,9 +583,9 @@ def validate(connection, source_df):
     sql_calls = float(sql_result[1] or 0)
     sql_internet = float(sql_result[2] or 0)
     aggregate_ok = (
-        source_sms == sql_sms
-        and source_calls == sql_calls
-        and source_internet == sql_internet
+        abs(source_sms - sql_sms) < 1e-6
+        and abs(source_calls - sql_calls) < 1e-6
+        and abs(source_internet - sql_internet) < 1e-6
     )
     results.append(
         (

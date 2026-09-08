@@ -28,12 +28,19 @@ const loadGeoJsonOnce = () => {
   return geoJsonPromise;
 };
 
+const formatMetric = (value) => {
+  if (value === null || value === undefined || value === "") return "0.00";
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "0.00";
+  return number.toFixed(2);
+};
+
 const pages = [
   { id: "overview", label: "Overview", icon: "◈" },
   { id: "grid", label: "Grid Activity", icon: "▦" },
   { id: "hotspots", label: "Hotspots", icon: "△" },
   { id: "risk", label: "Risk Analysis", icon: "◎" },
-  { id: "operations", label: "Operations", icon: "⌁" },
+  // { id: "operations", label: "Operations", icon: "⌁" },
 ];
 
 function App() {
@@ -355,91 +362,152 @@ function Overview({ summary, loading, error }) {
 }
 
 function GridExplorer({ initialGridId = "" }) {
-  const [gridId, setGridId] =  useState(
-  String(initialGridId || "")
-);
+  const [gridId, setGridId] = useState(
+    String(initialGridId || "")
+  );
   const [activity, setActivity] = useState(null);
+  const [selectedTimestamp, setSelectedTimestamp] = useState("");
+  const [selectedDay, setSelectedDay] = useState("");
+  const [timeDropdownOpen, setTimeDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const fetchGridActivity = async (grid) => {
-  const trimmedGridId = String(grid).trim();
+    const trimmedGridId = String(grid).trim();
 
-  if (!trimmedGridId) {
-    setError("Enter a grid ID to continue.");
+    if (!trimmedGridId) {
+      setError("Enter a grid ID to continue.");
+      setActivity(null);
+      setSelectedTimestamp("");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
     setActivity(null);
-    return;
-  }
+    setSelectedTimestamp("");
 
-  setLoading(true);
-  setError("");
-  setActivity(null);
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/network/grid/${encodeURIComponent(
-        trimmedGridId
-      )}`
-    );
-
-    if (response.status === 404) {
-      throw new Error(`Grid ${trimmedGridId} not found.`);
-    }
-
-    if (!response.ok) {
-      throw new Error(
-        `API request failed (${response.status})`
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/network/grid/${encodeURIComponent(
+          trimmedGridId
+        )}/timeline`
       );
+
+      if (response.status === 404) {
+        throw new Error(`Grid ${trimmedGridId} not found.`);
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          `API request failed (${response.status})`
+        );
+      }
+
+      const data = await response.json();
+
+      setActivity(data);
+
+      if (data.points && data.points.length > 0) {
+        const lastPoint =
+        data.points[data.points.length - 1];
+
+        setSelectedTimestamp(lastPoint.timestamp);
+        setSelectedDay(lastPoint.timestamp.slice(0, 10));
+      }
+    } catch (err) {
+      setError(
+        err.message || "Unable to load grid activity."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const searchGrid = async (event) => {
+    event.preventDefault();
+    await fetchGridActivity(gridId);
+  };
+
+  useEffect(() => {
+    if (initialGridId) {
+      setGridId(String(initialGridId));
+      fetchGridActivity(initialGridId);
+    }
+  }, [initialGridId]);
+
+  const selectedPoint =
+    activity?.points?.find(
+      (point) => point.timestamp === selectedTimestamp
+    ) || null;
+  
+  const availableDays = activity
+  ? [
+      ...new Set(
+        activity.points.map((point) =>
+          point.timestamp.slice(0, 10)
+        )
+      ),
+    ]
+  : [];
+
+  const pointsForSelectedDay = activity
+    ? activity.points.filter(
+      (point) =>
+        point.timestamp.slice(0, 10) === selectedDay
+    )
+  : [];
+
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return "";
+
+    return timestamp
+      .replace("T", " ")
+      .replace(":00", "")
+      .slice(0, 16);
+  };
+
+  const formatRisk = (riskScore) => {
+    if (
+      riskScore === null ||
+      riskScore === undefined ||
+      !Number.isFinite(Number(riskScore))
+    ) {
+      return "N/A";
     }
 
-    const data = await response.json();
-    setActivity(data);
-  } catch (err) {
-    setError(
-      err.message || "Unable to load grid activity."
-    );
-  } finally {
-    setLoading(false);
-  }
-};
-
-const searchGrid = async (event) => {
-  event.preventDefault();
-  await fetchGridActivity(gridId);
-};
-
-useEffect(() => {
-  if (initialGridId) {
-    setGridId(String(initialGridId));
-    fetchGridActivity(initialGridId);
-  }
-}, [initialGridId]);
+    return `${(Number(riskScore) * 100).toFixed(2)}%`;
+  };
 
   return (
     <div className="grid-explorer">
       <div className="explorer-header">
         <div>
           <p className="eyebrow">GRID-LEVEL ANALYSIS</p>
+
           <h3>Explore network activity</h3>
+
           <p className="muted">
-            Search a grid to view its most recent 24-hour activity profile.
+            Search a grid and select a specific hour to view
+            network activity and predictive risk.
           </p>
         </div>
 
         <div className="explorer-endpoint">
           <span>API ENDPOINT</span>
-          <strong>/network/grid/{"{grid_id}"}</strong>
+          <strong>/network/grid/{"{grid_id}"}/timeline</strong>
         </div>
       </div>
 
       <form className="grid-search" onSubmit={searchGrid}>
         <div className="search-field">
           <label htmlFor="grid-id">Grid ID</label>
+
           <input
             id="grid-id"
             type="number"
-            // min="1"
-            // max="10000"
+            min="1"
+            max="10000"
             placeholder="e.g. 4821"
             value={gridId}
             onChange={(event) => setGridId(event.target.value)}
@@ -454,16 +522,23 @@ useEffect(() => {
       {loading && (
         <div className="grid-state">
           <div className="spinner" />
+
           <h4>Loading grid activity</h4>
-          <p>Retrieving the latest 24-hour network profile...</p>
+
+          <p>
+            Retrieving the latest 24-hour network profile...
+          </p>
         </div>
       )}
 
       {!loading && error && (
         <div className="grid-state grid-error">
           <div className="error-icon">!</div>
+
           <h4>Grid not found</h4>
+
           <p>{error}</p>
+
           <small>
             Check the grid ID and try again.
           </small>
@@ -489,38 +564,179 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="series-legend">
-            <span className="legend-sms">SMS Activity</span>
-            <span className="legend-call">Call Activity</span>
-            <span className="legend-internet">Internet Activity</span>
-            <span className="legend-total">Total Activity</span>
-          </div>
+          <div className="timestamp-selector">
+  <div className="search-field">
+    <label htmlFor="day-select">
+      SELECT DAY
+    </label>
 
-          <div className="activity-table-wrapper">
-            <table className="activity-table">
-              <thead>
-                <tr>
-                  <th>Time</th>
-                  <th>SMS Activity</th>
-                  <th>Call Activity</th>
-                  <th>Internet Activity</th>
-                  <th>Total Activity</th>
-                </tr>
-              </thead>
+    <select
+      id="day-select"
+      value={selectedDay}
+      onChange={(event) => {
+        const day = event.target.value;
+        setSelectedDay(day);
 
-              <tbody>
-                {activity.points.map((point) => (
-                  <tr key={point.timestamp}>
-                    <td>{point.timestamp}</td>
-                    <td>{point.sms_activity}</td>
-                    <td>{point.call_activity}</td>
-                    <td>{point.internet_activity}</td>
-                    <td>{point.total_activity}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        const firstPoint = activity.points.find(
+          (point) =>
+            point.timestamp.slice(0, 10) === day
+        );
+
+        if (firstPoint) {
+          setSelectedTimestamp(firstPoint.timestamp);
+        }
+      }}
+    >
+      {availableDays.map((day) => (
+        <option key={day} value={day}>
+          {day}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  <div className="search-field">
+    <label htmlFor="time-select">
+      SELECT TIME
+    </label>
+
+    <div className="custom-time-dropdown">
+  <button
+    type="button"
+    className="custom-dropdown-button"
+    onClick={() =>
+      setTimeDropdownOpen(!timeDropdownOpen)
+    }
+  >
+    {selectedTimestamp
+      ? selectedTimestamp.slice(11, 16)
+      : "Select time"}
+    <span>⌄</span>
+  </button>
+
+  {timeDropdownOpen && (
+    <div className="custom-dropdown-menu">
+      {pointsForSelectedDay.map((point) => (
+        <button
+          type="button"
+          key={point.timestamp}
+          className={
+            point.timestamp === selectedTimestamp
+              ? "custom-dropdown-option selected"
+              : "custom-dropdown-option"
+          }
+          onClick={() => {
+            setSelectedTimestamp(point.timestamp);
+            setTimeDropdownOpen(false);
+          }}
+        >
+          {point.timestamp.slice(11, 16)}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+  </div>
+</div>
+
+          {selectedPoint && (
+            <>
+              <div className="selected-hour-header">
+                <div>
+                  <p className="eyebrow">
+                    SELECTED HOUR
+                  </p>
+
+                  <h4>
+                    {formatTimestamp(
+                      selectedPoint.timestamp
+                    )}
+                  </h4>
+                </div>
+
+                <div className="risk-display">
+                  <span>RISK SCORE</span>
+
+                  <strong>
+                    {formatRisk(
+                      selectedPoint.risk_score
+                    )}
+                  </strong>
+
+                  <small>
+                    {selectedPoint.risk_level ||
+                      "N/A"}
+                  </small>
+                </div>
+              </div>
+
+              <div className="metrics">
+                <Metric
+                  label="SMS Activity"
+                  value={selectedPoint.sms_activity}
+                  accent="primary"
+                />
+
+                <Metric
+                  label="Call Activity"
+                  value={selectedPoint.call_activity}
+                  accent="blue"
+                />
+
+                <Metric
+                  label="Internet Activity"
+                  value={selectedPoint.internet_activity}
+                  accent="purple"
+                />
+
+                <Metric
+                  label="Total Activity"
+                  value={selectedPoint.total_activity}
+                  accent="orange"
+                />
+              </div>
+
+              <div className="details-card">
+                <div>
+                  <p className="eyebrow">
+                    PREDICTIVE RISK
+                  </p>
+
+                  <strong>
+                    {selectedPoint.risk_score !== null
+                      ? `${(
+                          Number(
+                            selectedPoint.risk_score
+                          ) * 100
+                        ).toFixed(2)}%`
+                      : "N/A"}
+                  </strong>
+                </div>
+
+                <div>
+                  <p className="eyebrow">
+                    RISK LEVEL
+                  </p>
+
+                  <strong>
+                    {selectedPoint.risk_level ||
+                      "N/A"}
+                  </strong>
+                </div>
+
+                <div>
+                  <p className="eyebrow">
+                    MODEL
+                  </p>
+
+                  <strong>
+                    {selectedPoint.model_version ||
+                      "N/A"}
+                  </strong>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
@@ -569,7 +785,7 @@ function HotspotsPage({ geoJson, onOpenGrid }) {
               `${API_BASE_URL}/network/hotspots?limit=10000`
             ),
             fetch(
-              `${API_BASE_URL}/network/alerts?limit=1000`
+              `${API_BASE_URL}/network/alerts?limit=10000`
             ),
           ]);
 
@@ -976,10 +1192,6 @@ function MilanMap({
   topHotspot,
   onOpenGrid,
 }) {
-  const hotspotGridIds = new Set(
-    hotspots.map((item) => String(item.grid_id))
-  );
-
   const getStatus = (gridId) => {
     const alert = alertByGrid.get(String(gridId));
 
@@ -991,10 +1203,6 @@ function MilanMap({
       return "ATTENTION";
     }
 
-    if (hotspotGridIds.has(String(gridId))) {
-      return "ATTENTION";
-    }
-
     return "NORMAL";
   };
 
@@ -1003,62 +1211,59 @@ function MilanMap({
     const status = getStatus(gridId);
 
     const isTop =
-      String(gridId) === String(topHotspot?.grid_id);
+      gridId === String(topHotspot?.grid_id);
 
+    /*
+     * HIGH alert
+     */
     if (status === "HIGH") {
       return {
-        weight: isTop ? 4 : 2,
+        color: "#ff4d5a",
+        weight: isTop ? 2.5 : 1,
         opacity: 1,
+        fillColor: "#ff4d5a",
         fillOpacity: 0.65,
-        dashArray: "2 4",
       };
     }
 
+    /*
+     * MEDIUM alert
+     */
     if (status === "ATTENTION") {
       return {
-        weight: isTop ? 4 : 1.5,
-        opacity: 1,
-        fillOpacity: 0.45,
-        dashArray: "8 5",
+        color: "#f5b942",
+        weight: isTop ? 2 : 0.8,
+        opacity: 0.95,
+        fillColor: "#f5b942",
+        fillOpacity: 0.55,
       };
     }
 
+    /*
+     * LOW alert OR no alert
+     *
+     * Keep it as a normal blue grid.
+     */
     return {
-      weight: 0.7,
-      opacity: 0.65,
-      fillOpacity: 0.15,
-      dashArray: null,
+      color: "#12c836",
+      weight: 0.5,
+      opacity: 0.8,
+      fillColor: "#7acb8a",
+      fillOpacity: 0.18,
     };
-  };
-
-  const getFeatureColor = (feature) => {
-    const gridId = String(feature.properties.cellId);
-    const status = getStatus(gridId);
-
-    if (status === "HIGH") {
-      return "#ff4d5a";
-    }
-
-    if (status === "ATTENTION") {
-      return "#f5b942";
-    }
-
-    return "#3d7894";
   };
 
   const onEachFeature = (feature, layer) => {
     const gridId = String(feature.properties.cellId);
     const status = getStatus(gridId);
 
+    const alert = alertByGrid.get(gridId);
+
     const hotspot = hotspots.find(
       (item) => String(item.grid_id) === gridId
     );
 
-    layer.setStyle({
-      ...getStyle(feature),
-      color: getFeatureColor(feature),
-      fillColor: getFeatureColor(feature),
-    });
+    layer.setStyle(getStyle(feature));
 
     layer.bindTooltip(
       `GRID ${gridId} • ${status}`,
@@ -1071,10 +1276,17 @@ function MilanMap({
       <strong>Grid ${gridId}</strong><br/>
       Status: ${status}<br/>
       ${
-        hotspot
-          ? `Activity: ${formatActivity(hotspot.total_activity)}<br/>
-             Time: ${hotspot.timestamp}`
-          : "No ranked hotspot activity."
+        alert
+          ? `
+            Alert severity: ${alert.severity}<br/>
+            Alert type: ${alert.status}<br/>
+            Activity: ${formatActivity(alert.total_activity)}<br/>
+            Time: ${alert.timestamp}
+          `
+          : `
+            No alert recorded.<br/>
+            This grid is operating normally.
+          `
       }
     `);
 
@@ -1092,7 +1304,7 @@ function MilanMap({
       preferCanvas={true}
     >
       <TileLayer
-        attribution='&copy; OpenStreetMap contributors'
+        attribution="&copy; OpenStreetMap contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
@@ -1104,6 +1316,7 @@ function MilanMap({
     </MapContainer>
   );
 }
+
 
 function RiskPage() {
   const [form, setForm] = useState({

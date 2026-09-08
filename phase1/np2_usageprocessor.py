@@ -528,4 +528,5 @@ class UsageProcessor:
         }
 
 cleaner = UsageProcessor("D:/Milestone1proj/dataset/sms-call-internet-mi-2013-11-01.csv")
-cleaner.run()
+if __name__ == "__main__":
+    cleaner.run()

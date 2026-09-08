@@ -34,6 +34,8 @@ class HotspotItem(BaseModel):
     status: str
     reason: str
     risk_score: float | None = None
+    risk_level: str | None = None
+    model_version: str | None = None
 
 class HotspotResponse(BaseModel):
     as_of: str
@@ -51,7 +53,9 @@ class AlertItem(BaseModel):
     status: str
     reason: str
     risk_score: float | None = None
-
+    risk_level: str | None = None
+    model_version: str | None = None
+    
 class AlertResponse(BaseModel):
     as_of: str
     limit: int
@@ -60,12 +64,10 @@ class AlertResponse(BaseModel):
 # FASTAPI APPLICATION
 # ============================================================
 router = APIRouter()
-
 app = FastAPI(
     title="Milestone 1 Network Intelligence API",
     version="1.0.0",
 )
-
 app.include_router(router)
 # ============================================================
 # HELPERS
@@ -85,6 +87,31 @@ def get_connection():
             status_code=500,
             detail=f"Warehouse unavailable: {exc}",
         ) from exc
+        
+def load_risk_scores(conn):
+    try:
+        rows = conn.execute(
+            """
+            SELECT
+                grid_id,
+                timestamp,
+                risk_score,
+                risk_level,
+                model_version
+            FROM network_risk_scores
+            """
+        ).fetchall()
+    except sqlite3.OperationalError:
+        return {}
+
+    return {
+        (str(row[0]), str(row[1])): {
+            "risk_score": float(row[2]),
+            "risk_level": str(row[3]),
+            "model_version": str(row[4]),
+        }
+        for row in rows
+    }
         
 def get_effective_as_of(conn, as_of: str | None) -> str:
     if as_of is None:
@@ -118,7 +145,6 @@ def severity_from_alert_type(alert_type: str) -> str:
         "ACTIVITY_SPIKE": "MEDIUM",
         "ACTIVITY_DROP": "LOW",
     }
-
     return mapping.get(alert_type, "LOW")
 
 def load_alerts():
@@ -169,6 +195,7 @@ def hotspots(
             conn,
             as_of,
         )
+        risk_scores = load_risk_scores(conn)
         severity_filter = (
             severity.upper()
             if severity is not None
@@ -209,7 +236,12 @@ def hotspots(
             ),
         ).fetchall()
         results = []
+
         for row in rows:
+            risk = risk_scores.get(
+                (str(row["grid_id"]), str(row["timestamp"]))
+            )
+
             total = float(row["total_activity"])
             results.append(
                 HotspotItem(
@@ -225,6 +257,21 @@ def hotspots(
                     reason=(
                         "High total activity at the selected "
                         "reporting hour."
+                    ),
+                    risk_score=(
+                        float(risk["risk_score"])
+                        if risk is not None
+                        else None
+                    ),
+                    risk_level=(
+                        risk["risk_level"]
+                        if risk is not None
+                        else None
+                    ),
+                    model_version=(
+                        risk["model_version"]
+                        if risk is not None
+                        else None
                     ),
                 )
             )
@@ -263,14 +310,14 @@ def hotspots(
 @router.get(
     "/network/alerts",
     response_model=AlertResponse,
-    summary="Rule-based network alerts",
+    summary="Latest network alert per grid",
 )
 def alerts(
     limit: int = Query(
-        default=10,
+        default=10000,
         ge=1,
-        le=1000,
-        description="Maximum number of alert results.",
+        le=10000,
+        description="Maximum number of grid alert results.",
     ),
     severity: str | None = Query(
         default=None,
@@ -287,6 +334,7 @@ def alerts(
             conn,
             as_of,
         )
+        risk_scores = load_risk_scores(conn)
         severity_filter = (
             severity.upper()
             if severity is not None
@@ -303,53 +351,81 @@ def alerts(
                 detail="Invalid severity. Use HIGH, MEDIUM or LOW.",
             )
         alert_rows = load_alerts()
-        selected = []
+        # Keep only the latest alert for each grid
+        # at or before the reporting timestamp.
+        latest_by_grid = {}
         for row in alert_rows:
             try:
                 timestamp = datetime.fromisoformat(
                     row["timestamp"]
                 ).isoformat(timespec="seconds")
-            except ValueError:
+            except (ValueError, TypeError):
                 continue
             if timestamp > effective_as_of:
                 continue
-            current = float(row["current_activity"])
-            baseline = float(row["baseline_activity"])
-            alert_type = row["alert_type"]
+            grid_id = str(row["grid_id"])
+            current = latest_by_grid.get(grid_id)
+            if (
+                current is None
+                or timestamp > current["timestamp"]
+            ):
+                latest_by_grid[grid_id] = {
+                    "grid_id": grid_id,
+                    "timestamp": timestamp,
+                    "alert_type": row["alert_type"],
+                    "current_activity": float(
+                        row["current_activity"]
+                    ),
+                    "baseline_activity": float(
+                        row["baseline_activity"]
+                    ),
+                    "reason": row["reason"],
+                }
+        selected = []
+        for row in latest_by_grid.values():
+            risk = risk_scores.get(
+                    (str(row["grid_id"]), str(row["timestamp"]))
+                    )
             row_severity = severity_from_alert_type(
-                alert_type
+                row["alert_type"]
             )
             if (
                 severity_filter is not None
                 and row_severity != severity_filter
             ):
                 continue
+            
             selected.append(
                 AlertItem(
-                    grid_id=str(row["grid_id"]),
-                    timestamp=timestamp,
+                    grid_id=row["grid_id"],
+                    timestamp=row["timestamp"],
                     sms_activity=0.0,
                     call_activity=0.0,
                     internet_activity=0.0,
-                    total_activity=current,
+                    total_activity=row["current_activity"],
                     severity=row_severity,
-                    status=alert_type,
+                    status=row["alert_type"],
                     reason=row["reason"],
+                    risk_score=risk["risk_score"] if risk else None,
+                    risk_level=risk["risk_level"] if risk else None,
+                    model_version=risk["model_version"] if risk else None,
                 )
             )
+
         selected.sort(
             key=lambda item: (
-                item.timestamp,
                 item.severity,
+                item.timestamp,
                 item.grid_id,
-                item.status,
             ),
             reverse=True,
         )
+
         return AlertResponse(
             as_of=effective_as_of,
             limit=limit,
             results=selected[:limit],
         )
+
     finally:
         conn.close()

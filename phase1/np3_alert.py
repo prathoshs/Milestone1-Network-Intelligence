@@ -31,60 +31,97 @@ FLOOR_PERCENTILE = 0.10
 # ============================================================
 # WITHIN-DAY LEAVE-ONE-OUT BASELINE
 # ============================================================
-def calculate_baseline(group):
+# ============================================================
+# SHARED LEAVE-ONE-OUT BASELINE
+# ============================================================
+
+def calculate_baseline(
+    group,
+    leave_one_out=True,
+):
     """
-    Calculate the leave-one-out median baseline
-    for one grid on one day.
-    The current hour is excluded from its own
-    baseline calculation.
+    Calculate the median baseline for each row in a group.
+
+    When leave_one_out=True, the current row is excluded
+    from its own baseline calculation.
+
+    This function is shared by NP3 and ML4. The grouping
+    strategy is controlled by add_baselines().
     """
     values = group[ACTIVITY_COLUMN].to_numpy()
+
     baselines = []
+
     for i in range(len(values)):
-        # Exclude the current hour
-        other_values = [
-            values[j]
-            for j in range(len(values))
-            if j != i
-        ]
-        if other_values:
+
+        if leave_one_out:
+            other_values = [
+                values[j]
+                for j in range(len(values))
+                if j != i
+            ]
+        else:
+            other_values = values
+
+        if len(other_values) > 0:
             baseline = float(
                 pd.Series(other_values).median()
             )
         else:
             baseline = float("nan")
+
         baselines.append(baseline)
+
     result = group.copy()
     result["baseline_activity"] = baselines
+
     return result
-def add_baselines(df):
+
+
+def add_baselines(
+    df,
+    bucket_columns,
+    leave_one_out=True,
+):
     """
-    Add the within-day leave-one-out median baseline.
-    Baseline is calculated separately for every
-    grid_id and calendar day.
+    Apply the shared baseline calculation using
+    configurable grouping/bucketing columns.
+
+    Examples:
+
+    NP3:
+        [grid_id, date]
+
+    ML4:
+        [grid_id, hour_of_day]
     """
     df = df.copy()
-    # Create calendar date
-    df["date"] = (
-        df[TIMESTAMP_COLUMN].dt.date
-    )
-    # Sort for deterministic processing
-    df = (
-        df.sort_values(
-            [GRID_COLUMN, TIMESTAMP_COLUMN]
+
+    df = df.sort_values(
+        [GRID_COLUMN, TIMESTAMP_COLUMN]
+    ).reset_index(drop=True)
+
+    groups = []
+
+    for _, group in df.groupby(
+        bucket_columns,
+        sort=False,
+        dropna=False,
+    ):
+        groups.append(
+            calculate_baseline(
+                group,
+                leave_one_out=leave_one_out,
+            )
         )
-        .reset_index(drop=True)
+
+    if not groups:
+        return df
+
+    return pd.concat(
+        groups,
+        ignore_index=True,
     )
-    # Calculate leave-one-out baseline
-    df = (
-        df.groupby(
-            [GRID_COLUMN, "date"],
-            group_keys=False
-        )
-        .apply(calculate_baseline)
-        .reset_index(drop=True)
-    )
-    return df
 # ============================================================
 # ACTIVITY FLOOR
 # ============================================================
@@ -367,41 +404,62 @@ def main():
     print(
         "Starting alert using UsageProcessor..."
     )
+
     # --------------------------------------------------------
-    # Create the NP2 processor
+    # Find all 7 daily input files
     # --------------------------------------------------------
-    input_file = (
-        BASE_DIR.parent
-        / "dataset"
-        / "sms-call-internet-mi-2013-11-01.csv"
+    input_files = sorted(
+        (BASE_DIR.parent / "dataset").glob(
+            "sms-call-internet-mi-2013-11-*.csv"
+        )
     )
-    processor = UsageProcessor(
-        input_file
-    )
-    # --------------------------------------------------------
-    # Run only the NP2 processing required by NP3
-    # NP3 receives grid/hour analytics directly
-    # from UsageProcessor instead of reading the
-    # intermediate CSV.
-    # --------------------------------------------------------
+
+    if not input_files:
+        raise FileNotFoundError(
+            "No dataset CSV files found."
+        )
+
     print(
-        "Running data preparation..."
+        f"Found {len(input_files)} input files."
     )
-    processor.load_data()
-    processor.clean_data()
-    processor.derive_time_features()
-    processor.aggregate_to_grid_time()
-    processor.derive_activity_features()
+
     # --------------------------------------------------------
-    # Get grid/hour DataFrame directly from NP2
+    # Run NP2 processing for each daily file
     # --------------------------------------------------------
-    df = (
-        processor.grid_time_df.copy()
+    frames = []
+
+    for input_file in input_files:
+        print(
+            f"Processing: {input_file.name}"
+        )
+
+        processor = UsageProcessor(
+            input_file
+        )
+
+        processor.load_data()
+        processor.clean_data()
+        processor.derive_time_features()
+        processor.aggregate_to_grid_time()
+        processor.derive_activity_features()
+
+        frames.append(
+            processor.grid_time_df.copy()
+        )
+
+    # --------------------------------------------------------
+    # Combine all daily grid/hour data
+    # --------------------------------------------------------
+    df = pd.concat(
+        frames,
+        ignore_index=True
     )
+
     print(
         f"Received {len(df)} grid/hour rows "
-        "from UsageProcessor."
+        f"from {len(input_files)} input files."
     )
+
     # --------------------------------------------------------
     # Validate required NP3 columns
     # --------------------------------------------------------
@@ -410,55 +468,71 @@ def main():
         TIMESTAMP_COLUMN,
         ACTIVITY_COLUMN
     }
+
     missing = (
         required_columns
         - set(df.columns)
     )
+
     if missing:
         raise ValueError(
             "UsageProcessor did not provide "
             f"required alert columns: "
             f"{sorted(missing)}"
         )
+
     # --------------------------------------------------------
     # Add date
     # --------------------------------------------------------
     df["date"] = (
         df[TIMESTAMP_COLUMN].dt.date
     )
+
     # --------------------------------------------------------
     # Within-day baseline
     # --------------------------------------------------------
     print(
         "Calculating within-day baselines..."
     )
-    df = add_baselines(df)
+
+    df = add_baselines(
+        df,
+        ["grid_id", "date"],
+        leave_one_out=True,
+    )
+
     # --------------------------------------------------------
     # Activity floor
     # --------------------------------------------------------
     floor, daily_totals = (
         calculate_activity_floor(df)
     )
+
     print(
         f"Calculated activity floor: "
         f"{floor:.2f}"
     )
+
     df = apply_activity_floor(
         df,
         daily_totals,
         floor
     )
+
     # --------------------------------------------------------
     # Previous hour
     # --------------------------------------------------------
     df = add_previous_hour(df)
+
     # --------------------------------------------------------
     # Generate alerts
     # --------------------------------------------------------
     print(
         "Applying alert rules..."
     )
+
     alerts = generate_alerts(df)
+
     # --------------------------------------------------------
     # Save alerts
     # --------------------------------------------------------
@@ -466,10 +540,12 @@ def main():
         parents=True,
         exist_ok=True
     )
+
     alerts.to_csv(
         OUTPUT_FILE,
         index=False
     )
+
     # --------------------------------------------------------
     # Print operational summary
     # --------------------------------------------------------
@@ -478,6 +554,7 @@ def main():
         alerts,
         floor
     )
+
     print(
         f"\nAlert file written to: "
         f"{OUTPUT_FILE}"

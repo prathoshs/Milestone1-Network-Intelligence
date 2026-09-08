@@ -1,0 +1,88 @@
+{
+  "problem": "High-Activity Risk Prediction",
+  "algorithm": "LightGBM Binary Classifier",
+  "features": [
+    "avg_activity",
+    "activity_growth",
+    "peak_ratio",
+    "variability",
+    "internet_share",
+    "current_activity",
+    "previous_hour_activity",
+    "rolling_3h_activity",
+    "rolling_6h_activity",
+    "activity_change",
+    "activity_change_pct"
+  ],
+  "target": "HIGH_ACTIVITY(t+1)",
+  "baseline_method": "Grid-specific rolling 24-hour median from t-23h through t",
+  "baseline_hours": 24,
+  "high_activity_multiplier": 1.5,
+  "threshold_method": "Grid-specific rolling 24-hour median from t-23h through t multiplied by 1.5",
+  "threshold_selection": {
+    "minimum_precision": 0.6,
+    "minimum_accuracy": 0.9,
+    "optimization_priority": [
+      "recall",
+      "f1",
+      "precision",
+      "accuracy"
+    ]
+  },
+  "prediction_probability_threshold": 0.29999999999999993,
+  "train": {
+    "rows": 949991,
+    "earliest_timestamp": "2013-11-02 23:00:00",
+    "latest_timestamp": "2013-11-06 21:00:00",
+    "class_balance": {
+      "0_count": 849635,
+      "1_count": 100356,
+      "0_percent": 89.43611044736214,
+      "1_percent": 10.563889552637868
+    }
+  },
+  "test": {
+    "rows": 249998,
+    "earliest_timestamp": "2013-11-06 22:00:00",
+    "latest_timestamp": "2013-11-07 22:00:00",
+    "class_balance": {
+      "0_count": 230533,
+      "1_count": 19465,
+      "0_percent": 92.21393771150169,
+      "1_percent": 7.786062288498307
+    }
+  },
+  "metrics": {
+    "accuracy": 0.9410515284122273,
+    "precision": 0.6068040119273516,
+    "recall": 0.6900077061392242,
+    "f1": 0.6457366763624126,
+    "roc_auc": 0.9523705417186039,
+    "balanced_accuracy": 0.8261280305192614,
+    "base_rate": 0.07786062288498308
+  },
+  "feature_importance": {
+    "avg_activity": 1667,
+    "current_activity": 1464,
+    "variability": 908,
+    "previous_hour_activity": 865,
+    "peak_ratio": 703,
+    "activity_growth": 672,
+    "activity_change_pct": 671,
+    "internet_share": 630,
+    "activity_change": 608,
+    "rolling_6h_activity": 534,
+    "rolling_3h_activity": 278
+  },
+  "np3_comparison": {
+    "MODEL_AND_NP3": 13481,
+    "MODEL_ONLY": 8653,
+    "NP3_ONLY": 88287,
+    "NEITHER": 139577
+  },
+  "observations": [
+    "The classifier has recall at least as high as precision, so it captures a relatively larger share of actual high-activity periods than the reliability of its positive predictions.",
+    "Accuracy is close to the majority-class baseline, so accuracy alone does not demonstrate strong predictive value; precision and recall are more informative.",
+    "The model produces 8,653 model-only predictions compared with the NP3 rule alerts. These disagreements are potentially useful for investigating activity patterns that the rule-based method does not flag, but they are not proof that the model is correct."
+  ]
+}

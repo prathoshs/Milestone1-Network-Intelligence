@@ -1,0 +1,75 @@
+Batch vs Streaming Decision Workshop
+========================================
+
+CURRENT BATCH PATH
+------------------
+
+Telecom CSV files
+        |
+        v
+Batch ingestion
+        |
+        v
+Spark processing
+        |
+        +----------------------+
+        |                      |
+        v                      v
+Processed data          Analytics layer
+                               |
+                               v
+                       Executive dashboard
+
+
+OPTIONAL STREAMING PATH
+-----------------------
+
+Live network events
+        |
+        v
+[Optional Kafka]
+        |
+        v
+Streaming processing
+        |
+        v
+Real-time alerts / potential real-time model scoring
+
+
+IMPORTANT:
+The streaming path is OPTIONAL and UNBUILT.
+
+Kafka is shown conceptually only.
+No Kafka broker, streaming job, or live event source
+is implemented in this training dataset.
+
+
+BATCH VS STREAMING RATIONALE
+----------------------------
+
+The provided telecom files are processed as batch even though
+real network activity is continuous because the available data
+is delivered as files and the required outputs are analytical
+summaries rather than second-by-second operational decisions.
+
+Batch processing reduces infrastructure and operational
+complexity when low latency does not provide additional value.
+
+MODEL ARCHITECTURE
+------------------
+
+Historical batch data
+        |
+        v
+Model training
+        |
+        v
+Trained model
+        |
+        +--------------------------+
+        |                          |
+        v                          v
+Batch scoring              Optional streaming scoring
+                                   ^
+                                   |
+                              Live events

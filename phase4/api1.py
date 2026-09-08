@@ -4,6 +4,7 @@ from phase4.api1_models import NetworkSummaryResponse
 from phase4.api1_service import get_network_summary
 from phase4.api2_grillact import router as api2_router
 from phase4.api3_hotspotandalert import router as api3_router
+from phase4.api4_gridfeature import router as api4_router
 from phase4.api6_opsupp import router as api6_router
 from phase4.api5_prediction import router as api5_router
 
@@ -58,5 +59,6 @@ def network_summary(
 
 app.include_router(api2_router)
 app.include_router(api3_router)
+app.include_router(api4_router)
 app.include_router(api5_router)
 app.include_router(api6_router)
