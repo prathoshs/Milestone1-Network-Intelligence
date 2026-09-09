@@ -1,0 +1,5 @@
+DUMPED/RUN FAILURE
+Claude request failed: BadRequestError
+Error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'prompt is too long: 1530057 tokens > 200000 maximum'}, 'request_id': 'req_011CerSPhpmwujev7fHrwy9M'}
+
+Interpretation: the dumped-everything context exceeded Claude's context-window limit, so this run could not be completed. This is recorded as the negative control for the C3 context-engineering experiment.

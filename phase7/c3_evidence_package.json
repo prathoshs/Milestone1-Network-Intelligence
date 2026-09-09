@@ -1,0 +1,86 @@
+{
+  "grid_id": "4821",
+  "current_interval_metrics": {
+    "timestamp": "2013-11-07T23:00:00",
+    "sms_activity": 18.0912,
+    "call_activity": 4.0116,
+    "internet_activity": 232.8647,
+    "total_activity": 254.9675
+  },
+  "grid_features": {
+    "grid_id": "4821",
+    "feature_timestamp": "2013-11-07T23:00:00",
+    "avg_activity": 360.25297499999994,
+    "activity_growth": -0.022515910214113408,
+    "active_hours": 24.0,
+    "peak_ratio": 1.8507677833888814,
+    "variability": 147.50894786592679,
+    "internet_share": 0.8267187222164276,
+    "data_quality": "STORED",
+    "freshness": "AVAILABLE"
+  },
+  "location": {
+    "grid_id": "4821",
+    "centroid_latitude": 45.45925525738849,
+    "centroid_longitude": 9.0731296147857,
+    "polygon_reference": "milano-grid.geojson#4821"
+  },
+  "recent_history_summary": {
+    "status": "available",
+    "points": 168,
+    "period_start": "2013-11-07T23:00:00",
+    "period_end": "2013-11-01T00:00:00",
+    "minimum_total_activity": 119.81580000000001,
+    "maximum_total_activity": 765.1382,
+    "average_total_activity": 339.88173809523806,
+    "risk_score_min": 0.0006942283021995817,
+    "risk_score_max": 0.7072422842800524,
+    "risk_levels": {
+      "LOW": 118,
+      "ATTENTION": 3
+    }
+  },
+  "prior_alert_summary": {
+    "status": "available",
+    "alert_count": 1,
+    "severity_counts": {
+      "LOW": 1
+    },
+    "first_alert": "2013-11-07T23:00:00",
+    "last_alert": "2013-11-07T23:00:00"
+  },
+  "current_model_risk": {
+    "grid_id": "4821",
+    "timestamp": "2013-11-07 23:00:00",
+    "risk_score": 0.003280575569260659,
+    "risk_level": "LOW",
+    "model_version": "ML3-LightGBM-v1"
+  },
+  "current_anomaly": {
+    "grid_id": "4821",
+    "timestamp": "2013-11-07 23:00:00",
+    "anomaly_score": -0.33363641495646384,
+    "anomaly_direction": "NORMAL",
+    "anomaly_flag": 0
+  },
+  "pipeline_status": {
+    "last_run_id": "manual__2026-09-05T19:54:12",
+    "last_run_timestamp": "2026-09-05T19:54:12.686723",
+    "task_status": {
+      "ingest": "SUCCESS",
+      "validate": "SUCCESS",
+      "spark_process": "SUCCESS",
+      "load_warehouse": "SUCCESS",
+      "quality_check": "SUCCESS",
+      "notify": "SUCCESS"
+    },
+    "rows_in": 7,
+    "rows_rejected": 1,
+    "nulls_handled": 0,
+    "rows_published": 1679994,
+    "as_of": "2013-11-07T23:00:00",
+    "freshness": "VERY_STALE",
+    "healthy": true,
+    "reasons": []
+  }
+}

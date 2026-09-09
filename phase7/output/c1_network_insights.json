@@ -1,0 +1,151 @@
+{
+  "lab": "C1 - Claude API - Network Insight Generator",
+  "model": "claude-haiku-4-5-20251001",
+  "results": [
+    {
+      "grid_id": "1",
+      "timestamp": "2013-11-02T23:00:00",
+      "evidence": {
+        "grid_id": "1",
+        "timestamp": "2013-11-02T23:00:00",
+        "current_activity": 74.66329999999999,
+        "avg_activity": 72.8089125,
+        "activity_growth": 0.015349765281403843,
+        "peak_ratio": 1.6798479169703295,
+        "variability": 26.436936703192252,
+        "baseline_activity": 72.3089,
+        "anomaly_score": 0.03256030723742165,
+        "anomaly_direction": "NORMAL",
+        "anomaly_flag": 0,
+        "rule_alerts": []
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "latency_seconds": 5.871,
+      "input_tokens": 530,
+      "output_tokens": 425,
+      "response": "SEVERITY\nNORMAL\n\nEVIDENCE\n- Current activity: 74.66329999999999\n- Average activity: 72.8089125\n- Activity growth: 0.015349765281403843 (approximately 1.53%)\n- Peak ratio: 1.6798479169703295\n- Variability: 26.436936703192252\n- Baseline activity: 72.3089\n- Anomaly score: 0.03256030723742165\n- Anomaly direction: NORMAL\n- Anomaly flag: 0\n- Rule alerts: none\n\nINTERPRETATION\nThe cell is operating within normal parameters. The anomaly score of 0.0326 is very low, indicating minimal deviation from expected behaviour. Current activity (74.66) is slightly elevated above average (72.81) and baseline (72.31), but this modest increase of approximately 1.53% growth is consistent with normal fluctuation. The peak ratio of 1.68 suggests occasional spikes reach roughly 1.68 times the average, which may be within acceptable bounds for this grid cell. The variability measure of 26.44 indicates moderate fluctuation around the mean, but without context on historical variability thresholds for this cell, this cannot be conclusively assessed as anomalous or concerning.\n\nNEXT CHECKS\n1. Confirm whether the peak ratio of 1.68 is within the expected range for this grid cell during this time period (Saturday evening, 23:00 UTC).\n2. Establish whether a variability value of 26.44 is consistent with historical patterns for this cell and time window.\n3. Review trend data over the past 24 hours to verify that the 1.53% growth rate is stable and not accelerating.\n4. Validate that rule thresholds are appropriately calibrated, given that no rule alerts were triggered despite measurable activity growth.",
+      "validation": {
+        "four_sections": true,
+        "unsupported_numbers": [],
+        "no_congestion_assertion": true
+      }
+    },
+    {
+      "grid_id": "2",
+      "timestamp": "2013-11-02T23:00:00",
+      "evidence": {
+        "grid_id": "2",
+        "timestamp": "2013-11-02T23:00:00",
+        "current_activity": 75.1218,
+        "avg_activity": 73.25577083333333,
+        "activity_growth": 0.01622549596770007,
+        "peak_ratio": 1.677304034921026,
+        "variability": 26.674196869516663,
+        "baseline_activity": 72.64699999999999,
+        "anomaly_score": 0.03406610045838097,
+        "anomaly_direction": "NORMAL",
+        "anomaly_flag": 0,
+        "rule_alerts": []
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "latency_seconds": 4.918,
+      "input_tokens": 531,
+      "output_tokens": 436,
+      "response": "SEVERITY\nNORMAL\n\nEVIDENCE\n- Current activity: 75.1218\n- Average activity: 73.25577083333333\n- Activity growth: 0.01622549596770007 (approximately 1.62%)\n- Peak ratio: 1.677304034921026\n- Variability: 26.674196869516663\n- Baseline activity: 72.64699999999999\n- Anomaly score: 0.03406610045838097\n- Anomaly direction: NORMAL\n- Anomaly flag: 0\n- No rule alerts present\n\nINTERPRETATION\nThe current activity is slightly elevated above both the baseline (72.647) and the rolling average (73.256), representing modest growth of approximately 1.62%. The peak ratio of 1.677 suggests that the highest observed activity in the recent window is about 67.7% above the current level, indicating normal cyclical variation rather than a sustained spike. The variability measure of 26.67 reflects moderate fluctuation typical of network activity. The anomaly score of 0.034 is very low, and the anomaly direction is marked as NORMAL with the anomaly flag at 0, collectively suggesting that current activity patterns are consistent with established baselines and do not deviate significantly from expected behavior.\n\nNEXT CHECKS\n1. Monitor the grid cell for sustained increases in current activity over the next 2\u20134 hours to detect any trend divergence from the average.\n2. Review historical activity patterns for this timestamp (23:00 UTC) across previous days to confirm whether this slight elevation is typical for this time period.\n3. Verify that baseline and average activity calculations remain valid and are being updated appropriately.\n4. Check for any scheduled maintenance, service deployments, or known events that might explain the minor activity growth.\n5. Establish alerting thresholds if not already in place; confirm that the current anomaly score threshold is appropriate for this grid cell.",
+      "validation": {
+        "four_sections": true,
+        "unsupported_numbers": [],
+        "no_congestion_assertion": true
+      }
+    },
+    {
+      "grid_id": "3",
+      "timestamp": "2013-11-02T23:00:00",
+      "evidence": {
+        "grid_id": "3",
+        "timestamp": "2013-11-02T23:00:00",
+        "current_activity": 75.61,
+        "avg_activity": 73.73130833333333,
+        "activity_growth": 0.0171481190778853,
+        "peak_ratio": 1.6746223929974569,
+        "variability": 26.92738069889576,
+        "baseline_activity": 73.00675,
+        "anomaly_score": 0.03565766179154671,
+        "anomaly_direction": "NORMAL",
+        "anomaly_flag": 0,
+        "rule_alerts": []
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "latency_seconds": 4.907,
+      "input_tokens": 528,
+      "output_tokens": 415,
+      "response": "SEVERITY\nNORMAL\n\nEVIDENCE\n- Current activity: 75.61\n- Average activity: 73.73130833333333\n- Activity growth: 0.0171481190778853 (approximately 1.71%)\n- Peak ratio: 1.6746223929974569\n- Variability: 26.92738069889576\n- Baseline activity: 73.00675\n- Anomaly score: 0.03565766179154671\n- Anomaly direction: NORMAL\n- Anomaly flag: 0 (no anomaly flagged)\n- Rule alerts: none\n\nINTERPRETATION\nThe cell is operating within normal parameters. The anomaly score of 0.036 is very low, indicating minimal deviation from expected behavior. Current activity (75.61) is slightly elevated above both the baseline (73.01) and average (73.73), but the growth rate of 1.71% is modest. The peak ratio of 1.67 suggests periodic spikes, but this appears consistent with normal operational patterns. The variability measure of 26.93 reflects typical fluctuations. No rules have triggered alerts, and the anomaly direction remains classified as NORMAL, all of which suggest routine network behavior with no concerning trends.\n\nNEXT CHECKS\n1. Verify that the anomaly detection model remains properly calibrated for this grid cell.\n2. Monitor the trend of activity growth over the next 24\u201348 hours to confirm the 1.71% increase does not accelerate.\n3. Review historical peak_ratio patterns to confirm that a value of 1.67 is consistent with normal operational cycles.\n4. Confirm that the variability measure of 26.93 aligns with expected seasonal or time-of-day patterns.\n5. Check for any scheduled maintenance or planned activity changes that might explain the current activity level.",
+      "validation": {
+        "four_sections": true,
+        "unsupported_numbers": [],
+        "no_congestion_assertion": true
+      }
+    },
+    {
+      "grid_id": "4",
+      "timestamp": "2013-11-02T23:00:00",
+      "evidence": {
+        "grid_id": "4",
+        "timestamp": "2013-11-02T23:00:00",
+        "current_activity": 73.3349,
+        "avg_activity": 71.51500833333334,
+        "activity_growth": 0.012759986013155965,
+        "peak_ratio": 1.6874122343316977,
+        "variability": 25.753722407869454,
+        "baseline_activity": 71.32995,
+        "anomaly_score": 0.028108108865911276,
+        "anomaly_direction": "NORMAL",
+        "anomaly_flag": 0,
+        "rule_alerts": []
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "latency_seconds": 5.574,
+      "input_tokens": 529,
+      "output_tokens": 442,
+      "response": "SEVERITY\nNORMAL\n\nEVIDENCE\n- Current activity: 73.3349\n- Average activity: 71.51500833333334\n- Activity growth: 0.012759986013155965 (approximately 1.28%)\n- Baseline activity: 71.32995\n- Peak ratio: 1.6874122343316977\n- Variability: 25.753722407869454\n- Anomaly score: 0.028108108865911276\n- Anomaly direction: NORMAL\n- Anomaly flag: 0 (not triggered)\n- Rule alerts: none\n\nINTERPRETATION\nThe current activity is slightly elevated above both the baseline (71.32995) and average (71.51500833333334), with modest growth of approximately 1.28%. The anomaly score of 0.028 is very low, which may suggest activity patterns remain within expected bounds for this grid cell. The peak ratio of 1.69 indicates that historical peak activity has been approximately 1.69 times the current level. The variability of 25.75 suggests moderate fluctuation in activity over the observation period. However, without context regarding what anomaly score thresholds are considered acceptable for this network, or what peak_ratio and variability values constitute concerning levels, the significance of these values cannot be fully inferred.\n\nNEXT CHECKS\n1. Confirm the anomaly score threshold used for this grid cell and verify that 0.028 is indeed below the operational alert threshold.\n2. Establish whether the observed variability of 25.75 is typical for this time period and grid cell.\n3. Review historical activity trends for grid_id 4 to assess whether the current 1.28% growth is within normal weekly or monthly patterns.\n4. Verify that no related alerts have triggered in adjacent grid cells that might indicate a broader network pattern.\n5. Confirm that the baseline_activity value (71.32995) remains current and appropriate for this timestamp.",
+      "validation": {
+        "four_sections": true,
+        "unsupported_numbers": [],
+        "no_congestion_assertion": true
+      }
+    },
+    {
+      "grid_id": "5",
+      "timestamp": "2013-11-02T23:00:00",
+      "evidence": {
+        "grid_id": "5",
+        "timestamp": "2013-11-02T23:00:00",
+        "current_activity": 66.9506,
+        "avg_activity": 65.40674166666666,
+        "activity_growth": 0.014276001050096443,
+        "peak_ratio": 1.659235687860413,
+        "variability": 23.660531973026245,
+        "baseline_activity": 64.90705,
+        "anomaly_score": 0.031484253251380184,
+        "anomaly_direction": "NORMAL",
+        "anomaly_flag": 0,
+        "rule_alerts": []
+      },
+      "model": "claude-haiku-4-5-20251001",
+      "latency_seconds": 5.59,
+      "input_tokens": 528,
+      "output_tokens": 450,
+      "response": "SEVERITY\nNORMAL\n\nEVIDENCE\n- Current activity: 66.9506\n- Average activity: 65.40674166666666\n- Activity growth: 0.014276001050096443 (approximately 1.43%)\n- Peak ratio: 1.659235687860413\n- Variability: 23.660531973026245\n- Baseline activity: 64.90705\n- Anomaly score: 0.031484253251380184\n- Anomaly direction: NORMAL\n- Anomaly flag: 0 (not triggered)\n- Rule alerts: none\n\nINTERPRETATION\nThe grid cell is operating within expected parameters. Current activity (66.9506) is marginally elevated above both the baseline (64.90705) and the average activity (65.40674166666666), suggesting a minor increase in demand. The activity growth rate of approximately 1.43% is modest. The anomaly score of 0.0315 is low, and the anomaly direction is marked as NORMAL, with the anomaly flag not triggered. No rule-based alerts have been generated. The peak ratio of 1.66 suggests that recent peaks have been approximately 66% above some reference level, which may warrant contextual comparison, but in isolation does not indicate distress. The variability of 23.66 indicates some fluctuation in activity over the measurement period, but this is consistent with normal network behavior.\n\nNEXT CHECKS\n1. Compare the peak ratio (1.66) against historical norms for this grid cell to determine if peak excursions are within expected bounds.\n2. Verify that the variability (23.66) is consistent with this grid cell's typical patterns.\n3. Monitor the trend of activity growth over the next several reporting intervals to confirm stability.\n4. If available, cross-reference this cell's metrics with adjacent grid cells to identify any localized or network-wide patterns.\n5. Confirm that rule alert thresholds remain appropriately calibrated for this grid cell's characteristics.",
+      "validation": {
+        "four_sections": true,
+        "unsupported_numbers": [],
+        "no_congestion_assertion": true
+      }
+    }
+  ],
+  "missing_anomaly_test": {
+    "response": "SEVERITY\nINSUFFICIENT EVIDENCE\n\nEVIDENCE\n- Current activity: 74.66329999999999\n- Average activity: 72.8089125\n- Activity growth: 0.015349765281403843 (\u22481.53%)\n- Peak ratio: 1.6798479169703295\n- Variability: 26.436936703192252\n- Baseline activity: 72.3089\n- No rule alerts are present\n- Timestamp: 2013-11-02T23:00:00\n\nINTERPRETATION\nThe current activity is slightly elevated above the average (by approximately 1.9 units), and the activity growth rate is modest at around 1.53%. The peak ratio of 1.68 suggests that recent peak activity has been approximately 68% higher than some reference level, which might indicate periodic spikes. The variability measure of 26.44 suggests moderate fluctuation in activity levels. However, these observations alone do not establish whether the cell's condition warrants concern.\n\nNEXT CHECKS\n1. Obtain the anomaly_score for this grid cell and timestamp\u2014this is essential for anomaly-based severity assessment.\n2. Verify whether the peak ratio threshold is within acceptable bounds for this grid cell's typical operating profile.\n3. Confirm whether the variability level of 26.44 is within expected parameters or represents unusual volatility.\n4. Check the historical trend of activity_growth to determine if 1.53% growth is consistent with normal patterns or indicates an emerging trend.\n5. Review recent events or maintenance windows that coincide with the timestamp 2013-11-02T23:00:00.\n6. Confirm the reference baseline and peak definition used to calculate peak_ratio.",
+    "latency_seconds": 5.292,
+    "insufficiency_detected": true
+  }
+}

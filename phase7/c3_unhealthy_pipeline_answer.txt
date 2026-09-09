@@ -1,0 +1,76 @@
+# INVESTIGATION REPORT: GRID 4821
+
+## CURRENT EVIDENCE
+
+**Timestamp:** 2013-11-07T23:00:00
+
+**Activity Measures:**
+- SMS activity: 18.0912
+- Call activity: 4.0116
+- Internet activity: 232.8647
+- Total activity: 254.9675
+
+**Grid Features:**
+- Average activity: 360.25
+- Activity growth: -2.25%
+- Active hours: 24.0
+- Peak ratio: 1.85
+- Variability: 147.51
+- Internet share: 82.67%
+- Data quality: STORED
+- Freshness: AVAILABLE
+
+**Model Risk Assessment:**
+- Risk score: 0.00328
+- Risk level: LOW
+- Model version: ML3-LightGBM-v1
+
+**Anomaly Detection:**
+- Anomaly score: -0.334
+- Anomaly direction: NORMAL
+- Anomaly flag: 0
+
+**Pipeline Status:**
+- Pipeline healthy: **FALSE**
+- Rows rejected: 1 (out of 7 rows in)
+- Nulls handled: 0
+- Freshness: VERY_STALE
+- Reason: "C3 sensitivity experiment: pipeline health manually set to unhealthy to test uncertainty handling."
+
+## HISTORICAL EVIDENCE
+
+**Recent History (168 observations from 2013-11-01 to 2013-11-07):**
+- Current total activity (254.97) is **below** the historical average (339.88)
+- Current activity falls within historical range: minimum 119.82 to maximum 765.14
+- Current activity represents 75% of the average historical activity
+
+**Historical Risk Assessment:**
+- Historical risk scores ranged from 0.0007 to 0.7072
+- Risk level distribution: 118 LOW (70.2%), 3 ATTENTION (1.8%)
+- Current risk score (0.00328) is consistent with the historical LOW risk pattern
+
+**Prior Alerts:**
+- 1 alert recorded
+- Severity: LOW
+- Alert timestamp: 2013-11-07T23:00:00 (same as current observation)
+
+The pattern shows moderately lower activity compared to the recent week average, but remains within the observed historical range.
+
+## UNCERTAINTY
+
+**Pipeline Health Compromises Confidence:**
+The pipeline is flagged as **unhealthy** due to a deliberate experiment ("C3 sensitivity experiment: pipeline health manually set to unhealthy to test uncertainty handling"). Additionally:
+- 1 row was rejected out of 7 input rows (14.3% rejection rate)
+- Data freshness is marked as VERY_STALE
+- These conditions materially limit confidence in all current metrics
+
+**What Cannot Be Concluded:**
+- Whether the activity measures accurately reflect actual network conditions, given the unhealthy pipeline and row rejection
+- Whether the low model risk score and normal anomaly detection are reliable, given stale analytics
+- Whether capacity is adequate or inadequate—activity measures alone do not indicate capacity status
+- Whether any congestion exists—neither the risk model nor anomaly detection output indicates congestion
+- Whether service quality is affected—no evidence of service failure is provided
+- What the rejected row contained or how its exclusion affects interpretation
+- Whether the observed pattern represents operational reality or data pipeline artifacts
+
+The unhealthy pipeline status and stale freshness mean all current evidence should be treated as potentially unreliable until pipeline health is restored and confirmed.

@@ -1,0 +1,62 @@
+# ANALYSIS FOR GRID 4821
+
+## CURRENT EVIDENCE
+
+**Timestamp:** 2013-11-07 23:00:00
+
+**Activity Metrics:**
+- SMS activity: 18.0912
+- Call activity: 4.0116
+- Internet activity: 232.8647
+- Total activity: 254.9675
+
+**Model Outputs:**
+- Current model risk: risk_score = 0.0033, risk_level = LOW, model_version = ML3-LightGBM-v1
+- Current anomaly: anomaly_score = -0.334, anomaly_direction = NORMAL, anomaly_flag = 0
+
+**Grid Features:**
+- Average activity: 360.25
+- Activity growth: -2.25%
+- Active hours: 24.0
+- Peak ratio: 1.85
+- Variability: 147.51
+- Internet share: 82.67%
+- Data quality: STORED, freshness: AVAILABLE
+
+**Location:** Centroid at latitude 45.459, longitude 9.073
+
+## HISTORICAL EVIDENCE
+
+**Recent 7-day period (168 data points from 2013-11-01 00:00:00 to 2013-11-07 23:00:00):**
+- Minimum total activity: 119.82
+- Maximum total activity: 765.14
+- Average total activity: 339.88
+- Current total activity (254.97) is below the 7-day average (339.88)
+- Current activity falls within the historical range
+
+**Historical risk assessment:**
+- Risk score range: 0.0007 to 0.707
+- Risk levels: 118 LOW, 3 ATTENTION (out of 168 observations)
+- Current risk score (0.0033) is near the lower end of the historical range
+
+**Prior alerts:**
+- 1 alert recorded
+- Severity: LOW
+- Alert timing: 2013-11-07 23:00:00 (same timestamp as current interval)
+
+## UNCERTAINTY
+
+**Pipeline limitations:**
+- Pipeline freshness is VERY_STALE (last analytics as of 2013-11-07 23:00:00, but pipeline ran 2026-09-05)
+- 1 row rejected during processing (out of 7 rows in)
+- The stale analytics significantly limit confidence in whether the current snapshot reflects actual real-time conditions
+
+**Cannot conclude:**
+- Whether the below-average activity represents congestion, capacity problems, or service failure
+- Whether the negative activity growth (-2.25%) indicates a systematic issue
+- What the rejected pipeline row contained or whether it affects this grid's analysis
+- Whether conditions have changed since the stale analytics timestamp
+- The practical significance of the LOW risk level and NORMAL anomaly direction
+- Whether the single LOW severity alert at this timestamp is actionable
+
+The activity measures are unitless and cannot be converted to specific counts or data volumes without additional documentation.

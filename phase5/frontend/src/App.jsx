@@ -766,12 +766,15 @@ function formatActivity(value) {
 function HotspotsPage({ geoJson, onOpenGrid }) {
   const [hotspots, setHotspots] = useState([]);
   const [alerts, setAlerts] = useState([]);
+  const [topMovers, setTopMovers] = useState([]);
 
   const [limit, setLimit] = useState(10);
   const [severity, setSeverity] = useState("ALL");
+  const [moversLimit, setMoversLimit] = useState(10);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [asOf, setAsOf] = useState("");
 
   useEffect(() => {
     const fetchOperationalData = async () => {
@@ -779,13 +782,16 @@ function HotspotsPage({ geoJson, onOpenGrid }) {
         setLoading(true);
         setError("");
 
-        const [hotspotResponse, alertResponse] =
+        const [hotspotResponse, alertResponse, moversResponse] =
           await Promise.all([
             fetch(
               `${API_BASE_URL}/network/hotspots?limit=10000`
             ),
             fetch(
               `${API_BASE_URL}/network/alerts?limit=10000`
+            ),
+            fetch(
+              `${API_BASE_URL}/network/top-movers?limit=100`
             ),
           ]);
 
@@ -801,11 +807,20 @@ function HotspotsPage({ geoJson, onOpenGrid }) {
           );
         }
 
+        if (!moversResponse.ok) {
+          throw new Error(
+            `Top Movers API request failed (${moversResponse.status})`
+          );
+        }
+
         const hotspotData = await hotspotResponse.json();
         const alertData = await alertResponse.json();
+        const moversData = await moversResponse.json();
 
         setHotspots(hotspotData.results || []);
         setAlerts(alertData.results || []);
+        setTopMovers(moversData.results || []);
+        setAsOf(moversData.as_of || hotspotData.as_of || "");
       } catch (err) {
         setError(
           err.message ||
@@ -1158,6 +1173,166 @@ const filteredHotspots = hotspotRows
                   )}
                 </tbody>
               </table>
+            </div>
+          </section>
+
+          <section className="top-movers-panel">
+            <div className="panel-heading">
+              <div>
+                <span className="panel-kicker">
+                  ACTIVITY TRENDS
+                </span>
+                <h4>Top Activity Increases vs Baseline</h4>
+              </div>
+
+              <div className="limit-controls">
+                <label htmlFor="movers-limit">Show:</label>
+                <select
+                  id="movers-limit"
+                  value={moversLimit}
+                  onChange={(e) =>
+                    setMoversLimit(e.target.value)
+                  }
+                >
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="reporting-timestamp">
+              <p className="eyebrow">REPORTING TIMESTAMP</p>
+              <strong>{asOf}</strong>
+            </div>
+
+            <div className="activity-table-wrapper">
+              <table className="activity-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Grid</th>
+                    <th>Avg Activity</th>
+                    <th>Growth %</th>
+                    <th>Anomaly</th>
+                    <th>Risk</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topMovers
+                    .slice(0, Number(moversLimit))
+                    .map((mover, idx) => (
+                      <tr
+                        key={`${mover.grid_id}-${mover.feature_timestamp}`}
+                        onClick={() =>
+                          onOpenGrid(mover.grid_id)
+                        }
+                        style={{
+                          cursor: "pointer",
+                        }}
+                      >
+                        <td className="rank">
+                          {idx + 1}
+                        </td>
+                        <td
+                          className="grid-id"
+                          style={{
+                            fontWeight:
+                              idx === 0 ? "bold" : "normal",
+                          }}
+                        >
+                          {idx === 0 && (
+                            <span
+                              className="top-hotspot-label"
+                              style={{
+                                fontSize: "0.75em",
+                                marginRight:
+                                  "4px",
+                              }}
+                            >
+                              TOP GRID
+                            </span>
+                          )}
+                          {mover.grid_id}
+                        </td>
+                        <td>
+                          {formatActivity(
+                            mover.avg_activity
+                          )}
+                        </td>
+                        <td className="growth-pct">
+                          {(
+                            mover.activity_growth *
+                            100
+                          ).toFixed(1)}
+                          %
+                        </td>
+                        <td>
+                          {mover.anomaly_direction ? (
+                            <span
+                              className={`anomaly-badge anomaly-${mover.anomaly_direction.toLowerCase()}`}
+                            >
+                              {mover.anomaly_direction}
+                            </span>
+                          ) : (
+                            "—"
+                          )}
+                        </td>
+                        <td>
+                          {mover.risk_level ? (
+                            <StatusBadge
+                              status={
+                                mover.risk_level
+                              }
+                            />
+                          ) : (
+                            "—"
+                          )}
+                        </td>
+                        <td>
+                          {mover.feature_timestamp}
+                        </td>
+                      </tr>
+                    ))}
+
+                  {topMovers.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="empty-table"
+                      >
+                        No activity increase data
+                        available for the current
+                        reporting period.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div
+              className="panel-footer"
+              style={{
+                fontSize: "0.85em",
+                color: "#666",
+                marginTop: "12px",
+                padding: "0 12px 12px 12px",
+              }}
+            >
+              <p>
+                <strong>Growth reflects activity
+                intensity relative to each
+                grid&apos;s prior-24h
+                baseline.</strong> High growth
+                indicates a trend change and is
+                an operational attention signal
+                for investigation. It does not
+                indicate confirmed network
+                congestion.
+              </p>
             </div>
           </section>
         </>

@@ -1,7 +1,14 @@
 from pathlib import Path
 import sqlite3
+from datetime import datetime
 from fastapi import HTTPException, APIRouter, Query
 from pydantic import BaseModel
+import numpy as np
+
+# Import NP3's shared activity floor constant
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "phase1"))
+from np3_alert import FLOOR_PERCENTILE
 
 # ============================================================
 # CONFIGURATION
@@ -28,10 +35,120 @@ class GridFeatureResponse(BaseModel):
     data_quality: str
     freshness: str
 
+class TopMoverItem(BaseModel):
+    grid_id: str
+    feature_timestamp: str
+    avg_activity: float
+    activity_growth: float
+    anomaly_score: float | None = None
+    anomaly_direction: str | None = None
+    risk_score: float | None = None
+    risk_level: str | None = None
+    model_version: str | None = None
+
+class TopMoversResponse(BaseModel):
+    as_of: str
+    limit: int
+    activity_floor: float
+    results: list[TopMoverItem]
+
 # ============================================================
 # FASTAPI APPLICATION
 # ============================================================
 router = APIRouter()
+
+# ============================================================
+# SHARED HELPERS (reused from api3_hotspotandalert.py)
+# ============================================================
+def get_connection():
+    if not DB_PATH.exists():
+        raise HTTPException(
+            status_code=500,
+            detail=f"Warehouse database not found: {DB_PATH}",
+        )
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        return conn
+    except sqlite3.Error as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Warehouse unavailable: {exc}",
+        ) from exc
+
+def get_effective_as_of(conn, as_of: str | None) -> str:
+    if as_of is None:
+        row = conn.execute(
+            """
+            SELECT MAX(event_time) AS as_of
+            FROM fact_network_activity
+            """
+        ).fetchone()
+
+        if row is None or row["as_of"] is None:
+            raise HTTPException(
+                status_code=500,
+                detail="Analytics layer contains no timestamps",
+            )
+
+        return row["as_of"]
+    try:
+        return datetime.fromisoformat(as_of).isoformat(
+            timespec="seconds"
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid as_of. Use ISO-8601 format.",
+        ) from exc
+
+def load_risk_scores(conn):
+    try:
+        rows = conn.execute(
+            """
+            SELECT
+                grid_id,
+                timestamp,
+                risk_score,
+                risk_level,
+                model_version
+            FROM network_risk_scores
+            """
+        ).fetchall()
+    except sqlite3.OperationalError:
+        return {}
+
+    return {
+        (str(row[0]), str(row[1])): {
+            "risk_score": float(row[2]),
+            "risk_level": str(row[3]),
+            "model_version": str(row[4]),
+        }
+        for row in rows
+    }
+
+def load_anomaly_scores(conn):
+    try:
+        rows = conn.execute(
+            """
+            SELECT
+                grid_id,
+                timestamp,
+                anomaly_score,
+                anomaly_direction
+            FROM network_anomaly_scores
+            """
+        ).fetchall()
+    except sqlite3.OperationalError:
+        return {}
+
+    return {
+        (str(row[0]), str(row[1])): {
+            "anomaly_score": float(row[2]) if row[2] is not None else None,
+            "anomaly_direction": str(row[3]) if row[3] is not None else None,
+        }
+        for row in rows
+    }
 
 # ============================================================
 # API4 — GRID FEATURE ENDPOINT
@@ -389,3 +506,151 @@ def grid_timeline(
     finally:
         if conn is not None:
             conn.close()
+
+# ============================================================
+# API4 — TOP MOVERS (activity growth ranking)
+# ============================================================
+
+@router.get(
+    "/network/top-movers",
+    response_model=TopMoversResponse,
+    summary="Top grids by sharpest activity increase vs baseline",
+)
+def top_movers(
+    limit: int = Query(
+        default=10,
+        ge=1,
+        le=100,
+        description="Maximum number of top-mover results.",
+    ),
+    as_of: str | None = Query(
+        default=None,
+        description="Optional ISO-8601 reporting timestamp.",
+    ),
+) -> TopMoversResponse:
+    conn = get_connection()
+    try:
+        effective_as_of = get_effective_as_of(conn, as_of)
+        risk_scores = load_risk_scores(conn)
+        anomaly_scores = load_anomaly_scores(conn)
+
+        # Normalize effective_as_of to space-separated format
+        # to match network_feature_table.feature_timestamp storage
+        normalized_as_of = effective_as_of.replace("T", " ")
+
+        # Fetch all feature rows for the reporting hour
+        query = """
+            SELECT
+                grid_id,
+                feature_timestamp,
+                avg_activity,
+                activity_growth
+            FROM network_feature_table
+            WHERE REPLACE(feature_timestamp, 'T', ' ') = ?
+            ORDER BY activity_growth DESC
+        """
+
+        rows = conn.execute(
+            query,
+            (normalized_as_of,),
+        ).fetchall()
+
+        if not rows:
+            return TopMoversResponse(
+                as_of=effective_as_of,
+                limit=limit,
+                activity_floor=0.0,
+                results=[],
+            )
+
+        # Extract avg_activity values and compute floor (NP3-derived)
+        avg_activities = [
+            float(row["avg_activity"])
+            for row in rows
+        ]
+        activity_floor = float(
+            np.quantile(
+                avg_activities,
+                FLOOR_PERCENTILE,
+            )
+        )
+
+        # Filter: keep only rows above the activity floor
+        filtered_rows = [
+            row
+            for row in rows
+            if float(row["avg_activity"]) >= activity_floor
+        ]
+
+        # Sort by activity_growth descending (already done by SQL, but
+        # ensure ordering after filter)
+        filtered_rows = sorted(
+            filtered_rows,
+            key=lambda r: float(r["activity_growth"]),
+            reverse=True,
+        )
+
+        # Limit to the requested count
+        limited_rows = filtered_rows[:limit]
+
+        results = []
+        for row in limited_rows:
+            grid_id_str = str(row["grid_id"])
+            timestamp_str = str(row["feature_timestamp"])
+
+            # Look up risk and anomaly scores
+            risk = risk_scores.get(
+                (grid_id_str, timestamp_str)
+            )
+            anomaly = anomaly_scores.get(
+                (grid_id_str, timestamp_str)
+            )
+
+            results.append(
+                TopMoverItem(
+                    grid_id=grid_id_str,
+                    feature_timestamp=timestamp_str,
+                    avg_activity=float(row["avg_activity"]),
+                    activity_growth=float(row["activity_growth"]),
+                    anomaly_score=(
+                        anomaly["anomaly_score"]
+                        if anomaly is not None
+                        else None
+                    ),
+                    anomaly_direction=(
+                        anomaly["anomaly_direction"]
+                        if anomaly is not None
+                        else None
+                    ),
+                    risk_score=(
+                        float(risk["risk_score"])
+                        if risk is not None
+                        else None
+                    ),
+                    risk_level=(
+                        risk["risk_level"]
+                        if risk is not None
+                        else None
+                    ),
+                    model_version=(
+                        risk["model_version"]
+                        if risk is not None
+                        else None
+                    ),
+                )
+            )
+
+        return TopMoversResponse(
+            as_of=effective_as_of,
+            limit=limit,
+            activity_floor=activity_floor,
+            results=results,
+        )
+
+    except sqlite3.Error as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Warehouse query failed: {exc}",
+        ) from exc
+    finally:
+        conn.close()
