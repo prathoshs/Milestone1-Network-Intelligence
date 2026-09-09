@@ -88,19 +88,71 @@ def get_connection():
             detail=f"Warehouse unavailable: {exc}",
         ) from exc
         
-def load_risk_scores(conn):
+def load_anomaly_scores(conn, timestamp: str | None = None):
     try:
-        rows = conn.execute(
-            """
-            SELECT
-                grid_id,
-                timestamp,
-                risk_score,
-                risk_level,
-                model_version
-            FROM network_risk_scores
-            """
-        ).fetchall()
+        if timestamp:
+            rows = conn.execute(
+                """
+                SELECT
+                    grid_id,
+                    timestamp,
+                    anomaly_score,
+                    anomaly_direction
+                FROM network_anomaly_scores
+                WHERE timestamp = ?
+                """,
+                (timestamp,),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                """
+                SELECT
+                    grid_id,
+                    timestamp,
+                    anomaly_score,
+                    anomaly_direction
+                FROM network_anomaly_scores
+                """
+            ).fetchall()
+    except sqlite3.OperationalError:
+        return {}
+
+    return {
+        (str(row[0]), str(row[1])): {
+            "anomaly_score": float(row[2]) if row[2] is not None else None,
+            "anomaly_direction": str(row[3]) if row[3] is not None else None,
+        }
+        for row in rows
+    }
+
+def load_risk_scores(conn, timestamp: str | None = None):
+    try:
+        if timestamp:
+            rows = conn.execute(
+                """
+                SELECT
+                    grid_id,
+                    timestamp,
+                    risk_score,
+                    risk_level,
+                    model_version
+                FROM network_risk_scores
+                WHERE timestamp = ?
+                """,
+                (timestamp,),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                """
+                SELECT
+                    grid_id,
+                    timestamp,
+                    risk_score,
+                    risk_level,
+                    model_version
+                FROM network_risk_scores
+                """
+            ).fetchall()
     except sqlite3.OperationalError:
         return {}
 
@@ -195,7 +247,7 @@ def hotspots(
             conn,
             as_of,
         )
-        risk_scores = load_risk_scores(conn)
+        risk_scores = load_risk_scores(conn, effective_as_of)
         severity_filter = (
             severity.upper()
             if severity is not None
@@ -334,7 +386,7 @@ def alerts(
             conn,
             as_of,
         )
-        risk_scores = load_risk_scores(conn)
+        risk_scores = load_risk_scores(conn, effective_as_of)
         severity_filter = (
             severity.upper()
             if severity is not None

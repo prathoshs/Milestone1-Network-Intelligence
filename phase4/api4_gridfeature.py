@@ -7,8 +7,21 @@ import numpy as np
 
 # Import NP3's shared activity floor constant
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "phase1"))
+phase1_path = str(Path(__file__).resolve().parent.parent / "phase1")
+if phase1_path not in sys.path:
+    sys.path.insert(0, phase1_path)
 from np3_alert import FLOOR_PERCENTILE
+
+# Import shared helpers from api3 to avoid duplication
+phase4_path = str(Path(__file__).resolve().parent)
+if phase4_path not in sys.path:
+    sys.path.insert(0, phase4_path)
+from api3_hotspotandalert import (
+    get_connection,
+    get_effective_as_of,
+    load_risk_scores,
+    load_anomaly_scores,
+)
 
 # ============================================================
 # CONFIGURATION
@@ -56,99 +69,6 @@ class TopMoversResponse(BaseModel):
 # FASTAPI APPLICATION
 # ============================================================
 router = APIRouter()
-
-# ============================================================
-# SHARED HELPERS (reused from api3_hotspotandalert.py)
-# ============================================================
-def get_connection():
-    if not DB_PATH.exists():
-        raise HTTPException(
-            status_code=500,
-            detail=f"Warehouse database not found: {DB_PATH}",
-        )
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        return conn
-    except sqlite3.Error as exc:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Warehouse unavailable: {exc}",
-        ) from exc
-
-def get_effective_as_of(conn, as_of: str | None) -> str:
-    if as_of is None:
-        row = conn.execute(
-            """
-            SELECT MAX(event_time) AS as_of
-            FROM fact_network_activity
-            """
-        ).fetchone()
-
-        if row is None or row["as_of"] is None:
-            raise HTTPException(
-                status_code=500,
-                detail="Analytics layer contains no timestamps",
-            )
-
-        return row["as_of"]
-    try:
-        return datetime.fromisoformat(as_of).isoformat(
-            timespec="seconds"
-        )
-    except ValueError as exc:
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid as_of. Use ISO-8601 format.",
-        ) from exc
-
-def load_risk_scores(conn):
-    try:
-        rows = conn.execute(
-            """
-            SELECT
-                grid_id,
-                timestamp,
-                risk_score,
-                risk_level,
-                model_version
-            FROM network_risk_scores
-            """
-        ).fetchall()
-    except sqlite3.OperationalError:
-        return {}
-
-    return {
-        (str(row[0]), str(row[1])): {
-            "risk_score": float(row[2]),
-            "risk_level": str(row[3]),
-            "model_version": str(row[4]),
-        }
-        for row in rows
-    }
-
-def load_anomaly_scores(conn):
-    try:
-        rows = conn.execute(
-            """
-            SELECT
-                grid_id,
-                timestamp,
-                anomaly_score,
-                anomaly_direction
-            FROM network_anomaly_scores
-            """
-        ).fetchall()
-    except sqlite3.OperationalError:
-        return {}
-
-    return {
-        (str(row[0]), str(row[1])): {
-            "anomaly_score": float(row[2]) if row[2] is not None else None,
-            "anomaly_direction": str(row[3]) if row[3] is not None else None,
-        }
-        for row in rows
-    }
 
 # ============================================================
 # API4 — GRID FEATURE ENDPOINT
@@ -531,12 +451,13 @@ def top_movers(
     conn = get_connection()
     try:
         effective_as_of = get_effective_as_of(conn, as_of)
-        risk_scores = load_risk_scores(conn)
-        anomaly_scores = load_anomaly_scores(conn)
 
         # Normalize effective_as_of to space-separated format
-        # to match network_feature_table.feature_timestamp storage
+        # to match warehouse table timestamp storage
         normalized_as_of = effective_as_of.replace("T", " ")
+
+        risk_scores = load_risk_scores(conn, normalized_as_of)
+        anomaly_scores = load_anomaly_scores(conn, normalized_as_of)
 
         # Fetch all feature rows for the reporting hour
         query = """
