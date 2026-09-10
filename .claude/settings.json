@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(data/raw/**)",
+      "Write(data/raw/**)",
+      "Edit(data/raw/**)",
+      "Read(.env)",
+      "Read(*.env)",
+      "Bash(rm*data*)",
+      "Bash(del*data*)"
+    ],
+    "ask": [
+      "Edit(phase3/de*_dag.py)",
+      "Edit(phase3/de6_warehousemodel.py)",
+      "Edit(phase3/setup_airflow.sh)",
+      "Edit(package.json)",
+      "Bash(pip install)",
+      "Bash(npm install)",
+      "Bash(sqlite3*DROP)",
+      "Bash(sqlite3*ALTER)"
+    ],
+    "allow": [
+      "Bash(pytest)",
+      "Bash(black)",
+      "Bash(flake8)",
+      "Bash(prettier)"
+    ]
+  }
+}
