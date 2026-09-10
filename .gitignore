@@ -24,3 +24,4 @@ derby.log/
 *.tmp
 *.temp
 phase3/warehouse_output/*.db
+phase7/.env
